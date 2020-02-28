@@ -1,13 +1,13 @@
-package com.eshopper.backend;
+package cs425.team4.eshopper;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class EshopperApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(EshopperApplication.class, args);
 	}
 
 }
