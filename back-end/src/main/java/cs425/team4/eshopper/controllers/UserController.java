@@ -47,6 +47,11 @@ public class UserController {
 	        this.userService.setUserPassword(currentUsername, payload.get("password"));
 	        return payload.get("password");
 	    }
+	    @Secured({"ROLE_BUYER", "ROLE_MERCHANT", "ROLE_ADMIN"})
+	    @PostMapping("/login")
+	    public String login(@RequestBody Map<String, String> payload) {
+	        return "";
+	    }
 
 	    @Secured(value = {"ROLE_ADMIN"})
 	    @PostMapping
@@ -62,13 +67,13 @@ public class UserController {
 	    }
 
 	    @Secured(value = {"ROLE_ADMIN"})
-	    @GetMapping
+	    @GetMapping("/buyers")
 	    public Iterable<User> allUsers() {
 	        return userService.listNonMerchantUsers();
 	    }
 	    
 	    @Secured(value = {"ROLE_ADMIN"})
-	    @GetMapping
+	    @GetMapping("/merchants")
 	    public Iterable<User> allMerchants() {
 	        return userService.listMerchantUsers();
 	    }
