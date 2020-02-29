@@ -1,7 +1,7 @@
 version: 2.1
 attach_workspace: &attach_workspace
   attach_workspace:
-    at: ~/working-dir/back-end/workspace
+    at: ~/working-dir/workspace/back-end
 executors:
   java_executor:
     docker:
@@ -25,25 +25,25 @@ commands:
           - *attach_workspace
           - restore_cache: 
                keys:
-                   - v1-dependencies-maven {{ checksum "workspace/repo/pom.xml" }}
+                   - v1-dependencies-maven {{ checksum "workspace/repo/back-end/pom.xml" }}
           - run: | 
                cd workspace/repo/
                mvn << parameters.cmd >>
           - save_cache:
                paths:
                    - ~/.m2
-               key: v1-dependencies-maven {{ checksum "workspace/repo/pom.xml" }}
+               key: v1-dependencies-maven {{ checksum "workspace/repo/back-end/pom.xml" }}
           - run: |
-               cd workspace/repo/
+               cd workspace/repo/back-end/
                mvn integration-test
           - store_artifacts:
-               path: workspace/repo/target
+               path: workspace/repo/back-end/target
 jobs:
   checkout_code:
     executor: java_executor
     steps:
       - checkout:
-          path: workspace/repo
+          path: workspace/repo/back-end
       - persist_to_workspace:
           root: workspace
           paths:
