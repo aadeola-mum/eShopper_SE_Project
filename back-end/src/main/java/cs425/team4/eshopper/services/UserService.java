@@ -6,6 +6,7 @@ package cs425.team4.eshopper.services;
 import java.util.Optional;
 import java.util.UUID;
 
+import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.User;
 
 
@@ -17,8 +18,8 @@ public interface UserService {
 	public Optional<User> findUserByUsername(String username);
     public User saveUser(User account);
     public Iterable<User> listUsers();
-    public Iterable<User> listNonMerchantUsers();
-    public Iterable<User> listMerchantUsers();
+    public Iterable<User> listBuyers();
+    public Iterable<User> listMerchants();
     public void deleteUser(User user);
     public User updateUser(User user);
     public User setUserPassword(String username, String newPassword);

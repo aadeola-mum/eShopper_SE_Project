@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +25,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -56,7 +58,7 @@ public class User implements Serializable {
 	@NotEmpty(message = "Please provide a first name.")
 	private String firstName;
 	
-	@NotEmpty(message = "Please provide a last name.")
+	@NotNull @NotEmpty(message = "Please provide a last name.")
 	private String lastName;
 	
 	@NotEmpty(message = "Please provide a password.")
@@ -68,10 +70,10 @@ public class User implements Serializable {
 	@Email(message = "Please provide a valid email.")
 	private String username;
 	
-	@ManyToMany
+	@OneToOne(cascade = CascadeType.ALL)
 	@NotEmpty(message = "Please provide at least one role.")
-	@JoinTable
-	private Set<Role> roles;
+	//@JoinTable(name = "User_Roles")
+	private Role role;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address billingAddress;
@@ -167,18 +169,20 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
+	
+
 	/**
-	 * @return the roles
+	 * @return the role
 	 */
-	public Set<Role> getRoles() {
-		return roles;
+	public Role getRole() {
+		return role;
 	}
 
 	/**
-	 * @param roles the roles to set
+	 * @param role the role to set
 	 */
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	/**

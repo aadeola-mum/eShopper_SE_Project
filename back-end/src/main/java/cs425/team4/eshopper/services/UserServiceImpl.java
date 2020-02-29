@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cs425.team4.eshopper.dao.UserRepository;
+import cs425.team4.eshopper.models.Merchant;
+import cs425.team4.eshopper.models.Role;
 import cs425.team4.eshopper.models.User;
+import cs425.team4.eshopper.utils.Constants;
 
 
 
@@ -79,14 +82,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Iterable<User> listNonMerchantUsers() {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterable<User> listBuyers() {
+		return userRepository.findByRoleId(1);
 	}
 
 	@Override
-	public Iterable<User> listMerchantUsers() {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterable<User> listMerchants() {
+		return userRepository.findByRoleId(2);
 	}
 }

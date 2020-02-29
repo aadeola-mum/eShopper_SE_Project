@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import cs425.team4.eshopper.models.Address;
 import cs425.team4.eshopper.models.User;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,20 +20,20 @@ public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = -4677657640652141814L;
 	private String username;
     private String password;
-    private String fullnames;
-    private Address billingAddress;
-    private Address shippingAddress;
+    private User user;
     private boolean isActive;
     private List<GrantedAuthority> authorities;
 
     public UserDetailsImpl(User user) {
+    	this.user = user;
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.isActive = user.isEnabled();
-        this.billingAddress = user.getBillingAddress();
-        this.shippingAddress = user.getShippingAddress();
-        this.fullnames = user.getLastName()+", "+user.getFirstName();
-        this.authorities = user.getRoles().stream().map(x -> new SimpleGrantedAuthority(x.getType())).collect(Collectors.toList());
+        this.authorities = new ArrayList<>();
+        if(user.getRole() != null) {
+        	this.authorities.add(new SimpleGrantedAuthority(user.getRole().getType()));
+        }
+        
     }
 
     public UserDetailsImpl() {}
@@ -72,30 +73,10 @@ public class UserDetailsImpl implements UserDetails {
     }
 
 	/**
-	 * @return the fullnames
+	 * @return the user
 	 */
-	public String getFullnames() {
-		return fullnames;
-	}
-
-	/**
-	 * @param fullnames the fullnames to set
-	 */
-	public void setFullnames(String fullnames) {
-		this.fullnames = fullnames;
-	}
-
-	/**
-	 * @return the billingAddress
-	 */
-	public Address getBillingAddress() {
-		return billingAddress;
-	}
-	/**
-	 * @return the shippingAddress
-	 */
-	public Address getShippingAddress() {
-		return shippingAddress;
+	public User getUser() {
+		return user;
 	}
 
 
