@@ -10,7 +10,7 @@ executors:
         command: mysqld
         environment:
            MYSQL_ROOT_PASSWORD: 12345
-    working_directory: ~/working-dir/back-end
+    working_directory: ~/working-dir
 
     environment:
       MAVEN_OPTS: -Xmx3200m
