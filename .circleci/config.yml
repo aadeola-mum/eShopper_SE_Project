@@ -27,7 +27,6 @@ commands:
                keys:
                    - v1-dependencies-maven {{ checksum "workspace/repo/back-end/pom.xml" }}
           - run: |
-               cd workspace/repo/
                mvn << parameters.cmd >>
           - save_cache:
                paths:
