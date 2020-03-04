@@ -1,7 +1,7 @@
 version: 2.1
 attach_workspace: &attach_workspace
   attach_workspace:
-    at: ~/working-dir/workspace/back-end
+    at: ~/working-dir/workspace
 executors:
   java_executor:
     docker:
