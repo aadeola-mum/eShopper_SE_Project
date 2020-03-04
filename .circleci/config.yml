@@ -34,8 +34,7 @@ commands:
                    - ~/.m2
                key: v1-dependencies-maven {{ checksum "workspace/repo/back-end/pom.xml" }}
           - run: |
-               pwd
-               cd workspace/repo/back-end/
+               cd back-end
                mvn integration-test
           - store_artifacts:
                path: workspace/repo/back-end/target
