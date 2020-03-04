@@ -27,13 +27,14 @@ commands:
                keys:
                    - v1-dependencies-maven {{ checksum "workspace/repo/back-end/pom.xml" }}
           - run: |
+               cd workspace/repo/back-end
                mvn << parameters.cmd >>
           - save_cache:
                paths:
                    - ~/.m2
                key: v1-dependencies-maven {{ checksum "workspace/repo/back-end/pom.xml" }}
           - run: |
-               cd back-end
+               cd workspace/repo/back-end
                mvn integration-test
           - store_artifacts:
                path: workspace/repo/back-end/target
@@ -59,4 +60,3 @@ workflows:
             - build:
                   requires:
                        - checkout_code
-
