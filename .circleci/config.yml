@@ -26,7 +26,7 @@ commands:
           - restore_cache: 
                keys:
                    - v1-dependencies-maven {{ checksum "workspace/repo/back-end/pom.xml" }}
-          - run: | 
+          - run: |
                cd workspace/repo/
                mvn << parameters.cmd >>
           - save_cache:
@@ -34,6 +34,7 @@ commands:
                    - ~/.m2
                key: v1-dependencies-maven {{ checksum "workspace/repo/back-end/pom.xml" }}
           - run: |
+               pwd
                cd workspace/repo/back-end/
                mvn integration-test
           - store_artifacts:
