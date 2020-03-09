@@ -31,9 +31,9 @@ import cs425.team4.eshopper.exceptions.AdminsCannotDeleteThemselvesException;
 import cs425.team4.eshopper.exceptions.ItemNotFoundException;
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.User;
-import cs425.team4.eshopper.services.UserDetailsImpl;
-import cs425.team4.eshopper.services.UserDetailsServiceImpl;
 import cs425.team4.eshopper.services.UserService;
+import cs425.team4.eshopper.services.Impl.UserDetailsImpl;
+import cs425.team4.eshopper.services.Impl.UserDetailsServiceImpl;
 import cs425.team4.eshopper.utils.JwtUtil;
 
 /**

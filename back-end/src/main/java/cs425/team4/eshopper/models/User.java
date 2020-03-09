@@ -37,7 +37,7 @@ import org.hibernate.annotations.GenericGenerator;
  *
  */
 
-@Entity
+@Entity(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {
 

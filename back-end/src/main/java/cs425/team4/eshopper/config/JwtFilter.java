@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import cs425.team4.eshopper.services.UserDetailsServiceImpl;
+import cs425.team4.eshopper.services.Impl.UserDetailsServiceImpl;
 import cs425.team4.eshopper.utils.JwtUtil;
 
 

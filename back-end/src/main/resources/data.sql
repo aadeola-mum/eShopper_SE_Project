@@ -1,5 +1,5 @@
-INSERT IGNORE INTO role (id,type) VALUES (1,"ROLE_BUYER"), (2,"ROLE_MERCHANT"), (3,"ROLE_ADMIN");
-INSERT IGNORE INTO user (username, enabled, first_name, last_name, password, user_id, role_id) VALUES
+INSERT IGNORE INTO roles (id,type) VALUES (1,"ROLE_BUYER"), (2,"ROLE_MERCHANT"), (3,"ROLE_ADMIN");
+INSERT IGNORE INTO users (username, enabled, first_name, last_name, password, user_id, role_id) VALUES
 ("admin@miu.edu", TRUE, "Admin", "Super Privileged", "admin", "FKbhsm8kfi2wv0q1j4hqfkiy55o",3), /* id: 1 */
 ("faculty@miu.edu", TRUE, "Faculty", "Medium privileged", "faculty", "FKrc4tsdyh4bifeova984j3bugr",2), /* id: 2 */
 ("user@miu.edu", TRUE, "User", "Low Privileged", "user", "FK4wdjpiuhg2u14dx09poivlmri",1), /* id: 3 */

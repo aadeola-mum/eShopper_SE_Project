@@ -20,7 +20,7 @@ import javax.persistence.Id;
  *
  */
 
-@Entity
+@Entity(name="addresses")
 public class Address implements Cloneable {
 
 	@Id

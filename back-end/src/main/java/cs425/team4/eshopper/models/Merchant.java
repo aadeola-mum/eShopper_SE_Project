@@ -3,10 +3,14 @@
  */
 package cs425.team4.eshopper.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
 
 
 /**
@@ -24,6 +28,7 @@ public class Merchant extends User {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address officeAddress;
 	
+	@NotBlank(message = "This field is required")
 	@Column(name="office_phone_1", nullable = false)
 	private String officePhoneNumber1;
 	@Column(name="office_phone_2", nullable = true)
@@ -32,6 +37,11 @@ public class Merchant extends User {
 	private String identityProof;
 	@Column(name="can_sell")
 	private boolean approved;
+	
+	@OneToMany(mappedBy = "merchant")
+	private List<Product> products;
+	
+	
 	/**
 	 * 
 	 */

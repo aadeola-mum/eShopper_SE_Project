@@ -1,4 +1,4 @@
-package cs425.team4.eshopper.services;
+package cs425.team4.eshopper.services.Impl;
 
 
 
@@ -17,6 +17,7 @@ import cs425.team4.eshopper.dao.UserRepository;
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.Role;
 import cs425.team4.eshopper.models.User;
+import cs425.team4.eshopper.services.UserService;
 import cs425.team4.eshopper.utils.Constants;
 
 
