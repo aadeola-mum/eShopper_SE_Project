@@ -61,12 +61,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	
     	http
-    	.csrf().disable()
-    	.authorizeRequests()
-        	.antMatchers("/api/v1/users/login","/api/v1/users/register").permitAll()
-        	.anyRequest().authenticated()
-        	.and()
-        	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // this disables session creation on Spring Security
+    	.csrf().disable();
+//    	.authorizeRequests()
+//        	.antMatchers("/api/v1/users/login","/api/v1/users/register").permitAll()
+//        	.anyRequest().authenticated()
+//        	.and()
+//        	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // this disables session creation on Spring Security
     	http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
     

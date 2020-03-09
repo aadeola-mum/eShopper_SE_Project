@@ -3,9 +3,8 @@
  */
 package cs425.team4.eshopper.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,23 +27,27 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	@GetMapping("/list")
 	public Iterable<Product> fetchProducts(){
 		return productService.getAll();
 		
 	}
+	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	@GetMapping("/{productId}")
 	public Product fetchProduct(@PathVariable("productId") long productId){
 		return productService.get(productId);
 		
 	}
 	
+	@Secured(value = {"ROLE_MERCHANTS", "ROLE_ADMIN"})
 	@DeleteMapping("/{productId}")
 	public boolean deleteProduct(@PathVariable("productId") long productId){
 		return productService.delete(productId);
 		
 	}
 	
+	@Secured(value = {"ROLE_MERCHANTS", "ROLE_ADMIN"})
 	@PostMapping("/")
 	public Product save(@RequestBody Product product){
 		return productService.save(product);
