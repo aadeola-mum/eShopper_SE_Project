@@ -37,7 +37,7 @@ import cs425.team4.eshopper.services.Impl.UserDetailsServiceImpl;
 import cs425.team4.eshopper.utils.JwtUtil;
 
 /**
- * @author cs425 team 4
+ * @author cs425 team 6
  *
  */
 

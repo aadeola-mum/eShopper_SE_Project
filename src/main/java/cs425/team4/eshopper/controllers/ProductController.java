@@ -3,6 +3,8 @@
  */
 package cs425.team4.eshopper.controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,18 +38,20 @@ public class ProductController {
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	@GetMapping("/{productId}")
 	public Product fetchProduct(@PathVariable("productId") long productId){
-		return productService.get(productId);
+		if(productService.get(productId).isPresent())
+			return productService.get(productId).get();
+		else
+			return null;
 		
 	}
 	
-	@Secured(value = {"ROLE_MERCHANTS", "ROLE_ADMIN"})
+	@Secured(value = {"ROLE_MERCHANT", "ROLE_ADMIN"})
 	@DeleteMapping("/{productId}")
 	public boolean deleteProduct(@PathVariable("productId") long productId){
 		return productService.delete(productId);
-		
 	}
 	
-	@Secured(value = {"ROLE_MERCHANTS", "ROLE_ADMIN"})
+	@Secured(value = {"ROLE_MERCHANT", "ROLE_ADMIN"})
 	@PostMapping("/")
 	public Product save(@RequestBody Product product){
 		return productService.save(product);
