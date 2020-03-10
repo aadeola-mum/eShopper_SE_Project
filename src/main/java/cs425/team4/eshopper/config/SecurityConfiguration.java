@@ -66,7 +66,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        	.antMatchers("/api/v1/users/login","/api/v1/users/register").permitAll()
 //        	.anyRequest().authenticated()
 //        	.and()
-//        	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // this disables session creation on Spring Security
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // this disables session creation on Spring Security
     	http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
     
