@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cs425.team4.eshopper.controllers;
 
@@ -46,13 +46,13 @@ import cs425.team4.eshopper.utils.JwtUtil;
 @CrossOrigin(allowedHeaders = "*")
 @RequestMapping("/api/v1/users")
 public class UserController {
-	 
+
 	private UserService userService;
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private UserDetailsServiceImpl userDetailService;
-	
+
 	@Autowired
 	private JwtUtil jwtUtil;
 
@@ -60,7 +60,7 @@ public class UserController {
 	    public UserController(UserService userService) {
 	        this.userService = userService;
 	    }
-	    
+
 	    @Secured({"ROLE_BUYER", "ROLE_MERCHANT", "ROLE_ADMIN"})
 	    @PostMapping("/changePassword")
 	    public String changePassword(@RequestBody Map<String, String> payload) {
@@ -78,13 +78,17 @@ public class UserController {
 			} catch (AuthenticationException e) {
 				throw new Exception("Invalid username/password");
 			}
-	    		
+
 	    		final UserDetailsImpl userDetail = (UserDetailsImpl) userDetailService.loadUserByUsername(username);
 	    		final String jwtToken =  jwtUtil.generateToken(userDetail);
 	    		User loggedInUser = userDetail.getUser();
 	    		Map<String, Object> response = new HashMap<>();
 	    		response.put("user", loggedInUser);
 	    		response.put("token", jwtToken);
+	    		response.put("type", "bearer");
+	    		response.put("role", userDetail.getUser().getRole().getType());
+			    response.put("name", userDetail.getUser().getFirstName());
+			    response.put("account", userDetail.getUser().getUsername());
 	        return ResponseEntity.ok(response);
 	    }
 
@@ -106,7 +110,7 @@ public class UserController {
 	    public Iterable<User> allBuyers() {
 	        return userService.listBuyers();
 	    }
-	    
+
 	    @Secured(value = {"ROLE_ADMIN"})
 	    @GetMapping("/merchants")
 	    public Iterable<User> allMerchants() {
