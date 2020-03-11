@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import cs425.team4.eshopper.exceptions.AdminsCannotDeleteThemselvesException;
 import cs425.team4.eshopper.exceptions.ItemNotFoundException;
+import cs425.team4.eshopper.factory.UserFactory;
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.User;
 import cs425.team4.eshopper.services.UserService;
@@ -88,6 +89,26 @@ public class UserController {
 	        return ResponseEntity.ok(response);
 	    }
 
+	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	    @PostMapping("/register")
+	    public User createUser(@RequestBody @Valid User user) {
+	    	UserFactory userFactory = UserFactory.getInstance();
+	        return userService.saveUser(userFactory.createUser(user, "buyer"));
+
+	        
+	    }
+	    
+	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	    @PostMapping("/update")
+	    public User updateUser(@RequestBody @Valid User user) {
+	    	
+	        return userService.saveUser(user);
+
+	        
+	    }
+	    
+	    
+	    
 	    @Secured(value = {"ROLE_ADMIN"})
 	    @PostMapping
 	    public ResponseEntity<Object> newAdminUser(@RequestBody @Valid User user) {
