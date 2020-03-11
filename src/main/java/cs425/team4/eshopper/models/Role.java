@@ -10,7 +10,12 @@ import java.util.Objects;
 public class Role {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    
+    @Column(nullable = false, unique = true)
     private String type;
+    
+    @OneToMany(mappedBy = "role")
+    private List<User> user;
     
     public Role() {}
     
@@ -18,6 +23,17 @@ public class Role {
     
 
     /**
+	 * @param id
+	 */
+	public Role(long id) {
+		super();
+		this.id = id;
+	}
+
+
+
+
+	/**
 	 * @param id
 	 * @param type
 	 */

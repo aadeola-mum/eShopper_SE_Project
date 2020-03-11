@@ -1,12 +1,16 @@
 package cs425.team4.eshopper.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
@@ -15,7 +19,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "products")
-@SecondaryTable(name = "products_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "product_id"))
+@SecondaryTable(name = "product_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "product_id"))
 public class Product {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -39,17 +43,20 @@ public class Product {
 	@NotNull @ManyToOne 
 	private Merchant merchant;
 	
-	@Column(table = "products_details", nullable = true, columnDefinition = "LONGBLOB")
+	@Column(table = "product_details", nullable = true, columnDefinition = "LONGBLOB")
 	@Lob
 	private byte[] image_1;
 	
-	@Column(table = "products_details", nullable = true, columnDefinition = "LONGBLOB")
+	@Column(table = "product_details", nullable = true, columnDefinition = "LONGBLOB")
 	@Lob
 	private byte[] image_2;
 	
-	@Column(table = "products_details", nullable = true, columnDefinition = "LONGBLOB")
+	@Column(table = "product_details", nullable = true, columnDefinition = "LONGBLOB")
 	@Lob
 	private byte[] image_3;
+	
+	@ManyToMany
+	private List<ProductCategory> categories;
 
 	/**
 	 * 

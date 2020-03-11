@@ -10,7 +10,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -28,15 +31,16 @@ public class Merchant extends User {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address officeAddress;
 	
-	@NotBlank(message = "This field is required")
+	@NotBlank(message = "Office Phone 1 field is required")
 	@Column(name="office_phone_1", nullable = false)
 	private String officePhoneNumber1;
 	@Column(name="office_phone_2", nullable = true)
 	private String officePhoneNumber2;
 	@Column(name="identity_proof_img_url", nullable = true)
 	private String identityProof;
+	
 	@Column(name="can_sell")
-	private boolean approved;
+	private boolean approved = false;
 	
 	@OneToMany(mappedBy = "merchant")
 	private List<Product> products;
@@ -47,8 +51,42 @@ public class Merchant extends User {
 	 */
 	public Merchant() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
+	
+	
+	/**
+	 * @param firstName
+	 * @param lastName
+	 * @param password
+	 * @param username
+	 * @param role
+	 * @param billingAddress
+	 * @param shippingAddress
+	 * @param officeAddress
+	 * @param officePhoneNumber1
+	 * @param officePhoneNumber2
+	 * @param identityProof
+	 * @param approved
+	 * @param products
+	 */
+	public Merchant(@NotEmpty(message = "Please provide a first name.") String firstName,
+			@NotBlank @NotEmpty(message = "Please provide a last name.") String lastName,
+			@NotBlank(message = "Please provide a password.") String password,
+			@NotBlank(message = "Please provide an username.") @Email(message = "Please provide a valid email.") String username,
+			@NotNull(message = "Please provide at least one role.") Role role, Address billingAddress,
+			Address shippingAddress, Address officeAddress,
+			@NotBlank(message = "This field is required") String officePhoneNumber1, String officePhoneNumber2,
+			String identityProof, boolean approved, List<Product> products) {
+		super(firstName, lastName, password, username, role, billingAddress, shippingAddress);
+		this.officeAddress = officeAddress;
+		this.officePhoneNumber1 = officePhoneNumber1;
+		this.officePhoneNumber2 = officePhoneNumber2;
+		this.identityProof = identityProof;
+		this.approved = approved;
+		this.products = products;
+	}
+
+
 	/**
 	 * @return the officeAddress
 	 */
