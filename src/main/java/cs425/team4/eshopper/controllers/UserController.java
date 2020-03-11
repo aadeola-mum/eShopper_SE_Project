@@ -92,25 +92,19 @@ public class UserController {
 	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	    @PostMapping("/register")
 	    public User createUser(@RequestBody @Valid User user) {
-	    	UserFactory userFactory = UserFactory.getInstance();
-	        return userService.saveUser(userFactory.createUser(user, "buyer"));
-
-	        
+	    	//UserFactory userFactory = UserFactory.getInstance();
+	        //return userService.saveUser(userFactory.createUser(user, "buyer"));
+	    	return userService.saveUser(user);
 	    }
 	    
 	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
-	    @PostMapping("/update")
+	    @PutMapping("/update")
 	    public User updateUser(@RequestBody @Valid User user) {
-	    	
-	        return userService.saveUser(user);
-
-	        
+	        return userService.saveUser(user); 
 	    }
 	    
-	    
-	    
 	    @Secured(value = {"ROLE_ADMIN"})
-	    @PostMapping
+	    @PostMapping("/admin/create")
 	    public ResponseEntity<Object> newAdminUser(@RequestBody @Valid User user) {
 	        userService.saveUser(user);
 
