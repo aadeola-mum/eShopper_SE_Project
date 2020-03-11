@@ -5,7 +5,8 @@ INSERT IGNORE INTO users (username, enabled, first_name, last_name, password, ro
 ("user@miu.edu", TRUE, "User", "Low Privileged", "user", 1), /* id: 3 */
 ("eauser1@miu.edu", TRUE, "EA Student 1", "Low Privileged", "eauser1" ,1), /* id: 4 */
 ("eauser2@miu.edu", TRUE, "EA Student 2", "Low Privileged", "eauser2", 1), /* id: 5 */
-("eauser3@miu.edu", TRUE, "EA Student 3", "Low Privileged", "eauser3", 1); /* id: 6 */
+("eauser3@miu.edu", TRUE, "Merchant", "Walmart", "eauser3", 2),
+("eauser4@miu.edu", TRUE, "Merchant", "Target", "eauser4", 2);  /* id: 6 */
 
 -- REPLACE INTO user_roles VALUES
 -- ("FKbhsm8kfi2wv0q1j4hqfkiy55o", "ROLE_ADMIN"),
