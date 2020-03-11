@@ -47,109 +47,108 @@ import cs425.team4.eshopper.utils.JwtUtil;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    private UserService userService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserDetailsServiceImpl userDetailService;
+	private UserService userService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private UserDetailsServiceImpl userDetailService;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+	@Autowired
+	private JwtUtil jwtUtil;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+	    @Autowired
+	    public UserController(UserService userService) {
+	        this.userService = userService;
+	    }
 
-    @Secured({"ROLE_BUYER", "ROLE_MERCHANT", "ROLE_ADMIN"})
-    @PostMapping("/changePassword")
-    public String changePassword(@RequestBody Map<String, String> payload) {
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+	    @Secured({"ROLE_BUYER", "ROLE_MERCHANT", "ROLE_ADMIN"})
+	    @PostMapping("/changePassword")
+	    public String changePassword(@RequestBody Map<String, String> payload) {
+	        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        this.userService.setUserPassword(currentUsername, payload.get("password"));
-        return payload.get("password");
-    }
+	        this.userService.setUserPassword(currentUsername, payload.get("password"));
+	        return payload.get("password");
+	    }
+	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	    @PostMapping("/login")
+	    public ResponseEntity<?> login(@RequestBody Map<String, String> payload) throws Exception {
+	    		String username = payload.get("username");
+	    		try {
+				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, payload.get("password")));
+			} catch (AuthenticationException e) {
+				throw new Exception("Invalid username/password");
+			}
 
-    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> payload) throws Exception {
-        String username = payload.get("username");
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, payload.get("password")));
-        } catch (AuthenticationException e) {
-            throw new Exception("Invalid username/password");
-        }
+	    		final UserDetailsImpl userDetail = (UserDetailsImpl) userDetailService.loadUserByUsername(username);
+	    		final String jwtToken =  jwtUtil.generateToken(userDetail);
+	    		User loggedInUser = userDetail.getUser();
+	    		Map<String, Object> response = new HashMap<>();
+	    		response.put("user", loggedInUser);
+	    		response.put("token", jwtToken);
+	    		response.put("type", "bearer");
+	    		response.put("role", userDetail.getUser().getRole().getType());
+			    response.put("name", userDetail.getUser().getFirstName());
+			    response.put("account", userDetail.getUser().getUsername());
+	        return ResponseEntity.ok(response);
+	    }
 
-        final UserDetailsImpl userDetail = (UserDetailsImpl) userDetailService.loadUserByUsername(username);
-        final String jwtToken = jwtUtil.generateToken(userDetail);
-        User loggedInUser = userDetail.getUser();
-        Map<String, Object> response = new HashMap<>();
-        response.put("user", loggedInUser);
-        response.put("token", jwtToken);
-        response.put("type", "bearer");
-        response.put("role", userDetail.getUser().getRole().getType());
-        response.put("name", userDetail.getUser().getFirstName());
-        response.put("account", userDetail.getUser().getUsername());
-        return ResponseEntity.ok(response);
-    }
+	    @Secured(value = {"ROLE_ADMIN"})
+	    @PostMapping
+	    public ResponseEntity<Object> newAdminUser(@RequestBody @Valid User user) {
+	        userService.saveUser(user);
 
-    @Secured(value = {"ROLE_ADMIN"})
-    @PostMapping
-    public ResponseEntity<Object> newAdminUser(@RequestBody @Valid User user) {
-        userService.saveUser(user);
+	        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+	                .path("/{id}")
+	                .buildAndExpand(user.getUsername())
+	                .toUri();
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(user.getUsername())
-                .toUri();
+	        return ResponseEntity.created(location).build();
+	    }
 
-        return ResponseEntity.created(location).build();
-    }
+	    @Secured(value = {"ROLE_ADMIN"})
+	    @GetMapping("/buyers")
+	    public Iterable<User> allBuyers() {
+	        return userService.listBuyers();
+	    }
 
-    @Secured(value = {"ROLE_ADMIN"})
-    @GetMapping("/buyers")
-    public Iterable<User> allBuyers() {
-        return userService.listBuyers();
-    }
+	    @Secured(value = {"ROLE_ADMIN"})
+	    @GetMapping("/merchants")
+	    public Iterable<User> allMerchants() {
+	        return userService.listMerchants();
+	    }
 
-    @Secured(value = {"ROLE_ADMIN"})
-    @GetMapping("/merchants")
-    public Iterable<User> allMerchants() {
-        return userService.listMerchants();
-    }
+	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
+	    @GetMapping("/{username}")
+	    public User one(@PathVariable String username) {
+	        return userService.findUserByUsername(username)
+	        		.orElseThrow(() -> new ItemNotFoundException(username, User.class));
+	    }
 
-    @Secured(value = {"ROLE_ADMIN", "ROLE_MERCHANT", "ROLE_BUYER"})
-    @GetMapping("/{username}")
-    public User one(@PathVariable String username) {
-        return userService.findUserByUsername(username)
-                .orElseThrow(() -> new ItemNotFoundException(username, User.class));
-    }
+	    @Secured(value = {"ROLE_ADMIN"})
+	    @DeleteMapping("/{username}")
+	    public User deleteUser(@PathVariable String username) {
+	        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+	        if(username.equals(currentUsername))
+	            throw new AdminsCannotDeleteThemselvesException(username);
+	        User user = userService.findUserByUsername(username).map( u -> {
+	            userService.deleteUser(u);
+	            return u;
+	        }).orElse(null);
 
-    @Secured(value = {"ROLE_ADMIN"})
-    @DeleteMapping("/{username}")
-    public User deleteUser(@PathVariable String username) {
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (username.equals(currentUsername))
-            throw new AdminsCannotDeleteThemselvesException(username);
-        User user = userService.findUserByUsername(username).map(u -> {
-            userService.deleteUser(u);
-            return u;
-        }).orElse(null);
+	        return user;
+	    }
 
-        return user;
-    }
-
-    @Secured(value = {"ROLE_ADMIN"})
-    @PutMapping("/{username}")
-    public User replaceUser(@RequestBody @Valid User newUser, @PathVariable String username) {
-        User oldUser = userService.findUserByUsername(username).orElse(newUser);
-        oldUser.setBillingAddress(newUser.getBillingAddress());
-        oldUser.setRole(newUser.getRole());
-        oldUser.setShippingAddress(newUser.getShippingAddress());
-        oldUser.setEnabled(newUser.isEnabled());
-        oldUser.setPassword(newUser.getPassword());
-        oldUser.setFirstName(newUser.getFirstName());
-        oldUser.setLastName(newUser.getLastName());
-        return userService.updateUser(oldUser);
-    }
+	    @Secured(value = {"ROLE_ADMIN"})
+	    @PutMapping("/{username}")
+	    public User replaceUser(@RequestBody @Valid User newUser, @PathVariable String username) {
+	        User oldUser = userService.findUserByUsername(username).orElse(newUser);
+	        oldUser.setBillingAddress(newUser.getBillingAddress());
+	        oldUser.setRole(newUser.getRole());
+	        oldUser.setShippingAddress(newUser.getShippingAddress());
+	        oldUser.setEnabled(newUser.isEnabled());
+	        oldUser.setPassword(newUser.getPassword());
+	        oldUser.setFirstName(newUser.getFirstName());
+	        oldUser.setLastName(newUser.getLastName());
+	        return userService.updateUser(oldUser);
+	    }
 }
