@@ -47,13 +47,9 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -1797511201371820987L;
 	
 	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(
-			name = "UUID",
-			strategy = "org.hibernate.id.UUIDGenerator"
-		)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", updatable = false, nullable = false)
-	private UUID id;
+	private Long id;
 	
 	@NotEmpty(message = "Please provide a first name.")
 	private String firstName;
@@ -88,14 +84,14 @@ public class User implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public UUID getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(UUID id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

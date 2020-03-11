@@ -3,7 +3,6 @@ package cs425.team4.eshopper.services.Impl;
 
 
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
@@ -78,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public User findUserById(UUID userId) {
+	public User findUserById(Long userId) {
 		return userRepository.findById(userId).get();
 	}
 

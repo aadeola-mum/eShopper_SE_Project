@@ -10,13 +10,13 @@ import cs425.team4.eshopper.models.Role;
 import cs425.team4.eshopper.models.User;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<User, UUID> {
+
+public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserByUsername(String username);
     Optional<User> deleteUserByUsername(String username);
-    Boolean existsUserById(UUID id);
-    Boolean existsUserByUsernameAndIdIsNot(String username, UUID id);
+    Boolean existsUserById(Long id);
+    Boolean existsUserByUsernameAndIdIsNot(String username, Long id);
 //    @Query()
 //    Iterable<Merchant> fetchAllMerchants(@Param("") long role_id);
     Iterable<User> findByRoleId(long role_id);
