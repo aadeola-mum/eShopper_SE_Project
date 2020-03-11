@@ -87,7 +87,7 @@ public class UserController {
 	    		//response.put("user", loggedInUser);
 	    		response.put("token", jwtToken);
 	    		response.put("uid", userDetail.getUser().getId());
-	    		response.put("type", "bearer");
+	    		response.put("type", "Bearer");
 	    		response.put("role", userDetail.getUser().getRole().getType());
 			    response.put("name", userDetail.getUser().getFirstName());
 			    response.put("account", userDetail.getUser().getUsername());
