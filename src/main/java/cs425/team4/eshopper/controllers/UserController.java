@@ -82,10 +82,11 @@ public class UserController {
 
 	    		final UserDetailsImpl userDetail = (UserDetailsImpl) userDetailService.loadUserByUsername(username);
 	    		final String jwtToken =  jwtUtil.generateToken(userDetail);
-	    		User loggedInUser = userDetail.getUser();
+	    		//User loggedInUser = userDetail.getUser();
 	    		Map<String, Object> response = new HashMap<>();
 	    		//response.put("user", loggedInUser);
 	    		response.put("token", jwtToken);
+	    		response.put("uid", userDetail.getUser().getId());
 	    		response.put("type", "bearer");
 	    		response.put("role", userDetail.getUser().getRole().getType());
 			    response.put("name", userDetail.getUser().getFirstName());
@@ -96,9 +97,17 @@ public class UserController {
 	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	    @PostMapping("/register")
 	    public User createUser(@RequestBody @Valid User user) {
-	    	//UserFactory userFactory = UserFactory.getInstance();
-	        //return userService.saveUser(userFactory.createUser(user, "buyer"));
-	    	return userService.saveUser(user);
+	    	UserFactory userFactory = UserFactory.getInstance();
+	        return userService.saveUser(userFactory.createUser(user,"buyer"));
+	    	//return userService.saveUser(user);
+	    }
+	    
+	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	    @PostMapping("/merchants/register")
+	    public User createMerchant(@RequestBody @Valid Merchant user) {
+	    	UserFactory userFactory = UserFactory.getInstance();
+	        return userService.saveUser(userFactory.createUser(user, "merchant"));
+	    	//return userService.saveUser(user);
 	    }
 	    
 	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})

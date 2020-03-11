@@ -54,7 +54,7 @@ public class ProductController {
 	}
 	
 	@Secured(value = {"ROLE_MERCHANT", "ROLE_ADMIN"})
-	@PostMapping("/")
+	@PostMapping()
 	public Product save(@RequestBody Product product){
 		return productService.save(product);
 		

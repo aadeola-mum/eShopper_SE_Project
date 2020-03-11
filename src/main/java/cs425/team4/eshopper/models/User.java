@@ -19,11 +19,13 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -49,26 +51,25 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", updatable = false, nullable = false)
-	private Long id;
+	private long id;
 	
 	@NotEmpty(message = "Please provide a first name.")
 	private String firstName;
 	
-	@NotNull @NotEmpty(message = "Please provide a last name.")
+	@NotBlank @NotEmpty(message = "Please provide a last name.")
 	private String lastName;
 	
-	@NotEmpty(message = "Please provide a password.")
+	@NotBlank(message = "Please provide a password.")
 	private String password;
 	
 	private boolean enabled;
 	@Column(unique = true)
-	@NotEmpty(message = "Please provide an username.")
+	@NotBlank(message = "Please provide an username.")
 	@Email(message = "Please provide a valid email.")
 	private String username;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@NotEmpty(message = "Please provide at least one role.")
-	//@JoinTable(name = "User_Roles")
+	@ManyToOne(cascade = CascadeType.MERGE)
+	//@NotNull(message = "Please provide at least one role.")
 	private Role role;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -80,6 +81,35 @@ public class User implements Serializable {
 	public User() {
 		
 	}
+	
+	
+
+	/**
+	 * @param firstName
+	 * @param lastName
+	 * @param password
+	 * @param username
+	 * @param role
+	 * @param billingAddress
+	 * @param shippingAddress
+	 */
+	public User(@NotEmpty(message = "Please provide a first name.") String firstName,
+			@NotBlank @NotEmpty(message = "Please provide a last name.") String lastName,
+			@NotBlank(message = "Please provide a password.") String password,
+			@NotBlank(message = "Please provide an username.") @Email(message = "Please provide a valid email.") String username,
+			@NotNull(message = "Please provide at least one role.") Role role, Address billingAddress,
+			Address shippingAddress) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.password = password;
+		this.username = username;
+		this.role = role;
+		this.billingAddress = billingAddress;
+		this.shippingAddress = shippingAddress;
+	}
+
+
 
 	/**
 	 * @return the id
