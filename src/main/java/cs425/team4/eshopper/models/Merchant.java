@@ -54,6 +54,18 @@ public class Merchant extends User {
 	}
 	
 	
+	
+	
+	/**
+	 * 
+	 */
+	public Merchant(long userId) {
+		super();
+	}
+
+
+
+
 	/**
 	 * @param firstName
 	 * @param lastName

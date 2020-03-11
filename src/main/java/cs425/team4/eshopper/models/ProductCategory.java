@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
 
 @Entity(name = "product_categories")
 public class ProductCategory {
@@ -17,6 +18,7 @@ public class ProductCategory {
 	@Column(updatable = false, nullable = false)
 	private Long id;
 	
+	@NotBlank(message = "Category field required")
 	@Column(nullable = false, unique = true)
 	private String category;
 	

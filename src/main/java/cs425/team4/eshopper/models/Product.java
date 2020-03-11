@@ -1,5 +1,6 @@
 package cs425.team4.eshopper.models;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -10,11 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -24,23 +22,23 @@ public class Product {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank(message = "This field is required")
-	private String category;
-	@NotBlank(message = "This field is required")
+	
+	@NotBlank(message = "Title field is required")
 	private String title;
-	@NotBlank(message = "This field is required")
+	@NotBlank(message = "Summary field is required")
 	private String summary;
-	@NotBlank(message = "This field is required")
+	@NotBlank(message = "Description field is required")
 	private String description;
-	@NotBlank(message = "This field is required")
+	@NotNull(message = "Discount field is required")
 	private double discount;
-	@NotBlank(message = "This field is required")
+	@NotNull(message = "Price field is required")
 	private double price;
 	
-	@NotBlank(message = "This field is required")
+	@NotNull(message = "Quantity Available field is required")
 	private long qtyAvail;
 	
-	@NotNull @ManyToOne 
+	@NotNull 
+	@ManyToOne 
 	private Merchant merchant;
 	
 	@Column(table = "product_details", nullable = true, columnDefinition = "LONGBLOB")
@@ -56,6 +54,7 @@ public class Product {
 	private byte[] image_3;
 	
 	@ManyToMany
+	@NotNull(message = "Category field is required")
 	private List<ProductCategory> categories;
 
 	/**
@@ -78,20 +77,6 @@ public class Product {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the category
-	 */
-	public String getCategory() {
-		return category;
-	}
-
-	/**
-	 * @param category the category to set
-	 */
-	public void setCategory(String category) {
-		this.category = category;
 	}
 
 	/**
@@ -191,13 +176,74 @@ public class Product {
 	public void setMerchant(Merchant merchant) {
 		this.merchant = merchant;
 	}
+	
+	
+
+	/**
+	 * @return the image_1
+	 */
+	public byte[] getImage_1() {
+		return image_1;
+	}
+
+	/**
+	 * @param image_1 the image_1 to set
+	 */
+	public void setImage_1(byte[] image_1) {
+		this.image_1 = image_1;
+	}
+
+	/**
+	 * @return the image_2
+	 */
+	public byte[] getImage_2() {
+		return image_2;
+	}
+
+	/**
+	 * @param image_2 the image_2 to set
+	 */
+	public void setImage_2(byte[] image_2) {
+		this.image_2 = image_2;
+	}
+
+	/**
+	 * @return the image_3
+	 */
+	public byte[] getImage_3() {
+		return image_3;
+	}
+
+	/**
+	 * @param image_3 the image_3 to set
+	 */
+	public void setImage_3(byte[] image_3) {
+		this.image_3 = image_3;
+	}
+
+	/**
+	 * @return the categories
+	 */
+	public List<ProductCategory> getCategories() {
+		return categories;
+	}
+
+	/**
+	 * @param categories the categories to set
+	 */
+	public void setCategories(List<ProductCategory> categories) {
+		this.categories = categories;
+	}
 
 	@Override
 	public String toString() {
 		return String.format(
-				"Product [id=%s, category=%s, title=%s, summary=%s, description=%s, discount=%s, price=%s, qtyAvail=%s, merchant=%s]",
-				id, category, title, summary, description, discount, price, qtyAvail, merchant);
+				"Product [id=%s, title=%s, summary=%s, description=%s, discount=%s, price=%s, qtyAvail=%s, merchant=%s, image_1=%s, image_2=%s, image_3=%s, categories=%s]",
+				id, title, summary, description, discount, price, qtyAvail, merchant, Arrays.toString(image_1),
+				Arrays.toString(image_2), Arrays.toString(image_3), categories);
 	}
+
+	
 	
 	
 	
