@@ -83,7 +83,7 @@ public class UserController {
 	    		final String jwtToken =  jwtUtil.generateToken(userDetail);
 	    		User loggedInUser = userDetail.getUser();
 	    		Map<String, Object> response = new HashMap<>();
-	    		response.put("user", loggedInUser);
+	    		//response.put("user", loggedInUser);
 	    		response.put("token", jwtToken);
 	    		response.put("type", "bearer");
 	    		response.put("role", userDetail.getUser().getRole().getType());
