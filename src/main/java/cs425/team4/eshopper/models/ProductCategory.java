@@ -9,9 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
-@Entity(name = "product_categories")
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+@Entity
 public class ProductCategory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +23,11 @@ public class ProductCategory {
 	private Long id;
 	
 	@NotBlank(message = "Category field required")
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String category;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
+	@JsonManagedReference
+	@OneToMany(mappedBy = "category")
 	private List<Product> products;
 
 	/**
@@ -32,6 +37,18 @@ public class ProductCategory {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	/**
+	 * @param category
+	 */
+	public ProductCategory(@NotBlank(message = "Category field required") String category) {
+		super();
+		this.category = category;
+	}
+
+
 
 	/**
 	 * @return the id

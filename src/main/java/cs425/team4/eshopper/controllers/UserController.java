@@ -110,24 +110,24 @@ public class UserController {
 	    	//return userService.saveUser(user);
 	    }
 	    
-	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
 	    @PutMapping("/update")
 	    public User updateUser(@RequestBody @Valid User user) {
 	        return userService.saveUser(user); 
 	    }
 	    
-	    @Secured(value = {"ROLE_ADMIN"})
-	    @PostMapping("/admin/create")
-	    public ResponseEntity<Object> newAdminUser(@RequestBody @Valid User user) {
-	        userService.saveUser(user);
-
-	        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-	                .path("/{id}")
-	                .buildAndExpand(user.getUsername())
-	                .toUri();
-
-	        return ResponseEntity.created(location).build();
-	    }
+//	    @Secured(value = {"ROLE_ADMIN"})
+//	    @PostMapping("/admin/create")
+//	    public ResponseEntity<Object> newAdminUser(@RequestBody @Valid User user) {
+//	        userService.saveUser(user);
+//
+//	        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//	                .path("/{id}")
+//	                .buildAndExpand(user.getUsername())
+//	                .toUri();
+//
+//	        return ResponseEntity.created(location).build();
+//	    }
 
 	    @Secured(value = {"ROLE_ADMIN"})
 	    @GetMapping("/buyers")
@@ -147,6 +147,13 @@ public class UserController {
 	        return userService.findUserByUsername(username)
 	        		.orElseThrow(() -> new ItemNotFoundException(username, User.class));
 	    }
+	    
+	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
+	    @GetMapping("/{userId}")
+	    public User one(@PathVariable long userId) {
+	        return userService.findUserById(userId);
+	     
+	    }
 
 	    @Secured(value = {"ROLE_ADMIN"})
 	    @DeleteMapping("/{username}")
@@ -162,17 +169,17 @@ public class UserController {
 	        return user;
 	    }
 
-	    @Secured(value = {"ROLE_ADMIN"})
-	    @PutMapping("/{username}")
-	    public User replaceUser(@RequestBody @Valid User newUser, @PathVariable String username) {
-	        User oldUser = userService.findUserByUsername(username).orElse(newUser);
-	        oldUser.setBillingAddress(newUser.getBillingAddress());
-	        oldUser.setRole(newUser.getRole());
-	        oldUser.setShippingAddress(newUser.getShippingAddress());
-	        oldUser.setEnabled(newUser.isEnabled());
-	        oldUser.setPassword(newUser.getPassword());
-	        oldUser.setFirstName(newUser.getFirstName());
-	        oldUser.setLastName(newUser.getLastName());
-	        return userService.updateUser(oldUser);
-	    }
+//	    @Secured(value = {"ROLE_ADMIN"})
+//	    @PutMapping("/{username}")
+//	    public User replaceUser(@RequestBody @Valid User newUser, @PathVariable String username) {
+//	        User oldUser = userService.findUserByUsername(username).orElse(newUser);
+//	        oldUser.setBillingAddress(newUser.getBillingAddress());
+//	        oldUser.setRole(newUser.getRole());
+//	        oldUser.setShippingAddress(newUser.getShippingAddress());
+//	        oldUser.setEnabled(newUser.isEnabled());
+//	        oldUser.setPassword(newUser.getPassword());
+//	        oldUser.setFirstName(newUser.getFirstName());
+//	        oldUser.setLastName(newUser.getLastName());
+//	        return userService.updateUser(oldUser);
+//	    }
 }
