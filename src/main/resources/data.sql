@@ -1,3 +1,4 @@
+INSERT IGNORE INTO product_category (category, tax_in_percentage) VALUES ("Electronics", 0.54), ("Computer", 1.09), ("Fashion",1.54), ("Building Tools",2.43), ("Jewellery", 1.23);
 INSERT IGNORE INTO roles (id,type) VALUES (1,"ROLE_BUYER"), (2,"ROLE_MERCHANT"), (3,"ROLE_ADMIN");
 INSERT IGNORE INTO users (username, enabled, first_name, last_name, password, role_id) VALUES
 ("admin@miu.edu", TRUE, "Admin", "Super Privileged", "admin" ,3), /* id: 1 */

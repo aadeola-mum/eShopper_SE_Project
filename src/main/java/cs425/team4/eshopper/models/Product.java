@@ -2,6 +2,7 @@ package cs425.team4.eshopper.models;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
@@ -63,7 +65,10 @@ public class Product {
 	@NotNull(message = "Quantity Available field is required")
 	private long qtyAvail;
 	
+	@JsonView(View.Summary.class)
 	private boolean isAvailable = true;
+	
+	
 	 
 	@JsonView(View.Summary.class)
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -81,17 +86,21 @@ public class Product {
 	@Lob
 	private byte[] image_3;
 	
-	@JsonBackReference
-	@OneToOne(cascade = CascadeType.ALL)
+	//@JsonBackReference
+	@ManyToMany(/*cascade = CascadeType.ALL*/)
+	@JoinTable(
+			name = "products_categories", 
+			joinColumns = @JoinColumn(name ="product_id"), 
+			inverseJoinColumns = @JoinColumn(name ="category_id")
+	)
 	@NotNull(message = "Category field is required")
-	private ProductCategory category;
+	private Set<ProductCategory> category;
 
 	/**
 	 * 
 	 */
 	public Product() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -149,20 +158,18 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
 
 	/**
 	 * @return the category
 	 */
-	public ProductCategory getCategory() {
+	public Set<ProductCategory> getCategory() {
 		return category;
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(ProductCategory category) {
+	public void setCategory(Set<ProductCategory> category) {
 		this.category = category;
 	}
 
@@ -280,6 +287,8 @@ public class Product {
 	public void setAvailable(boolean isAvailable) {
 		this.isAvailable = isAvailable;
 	}
+	
+	
 
 	@Override
 	public String toString() {
@@ -287,6 +296,43 @@ public class Product {
 				"Product [id=%s, title=%s, summary=%s, description=%s, discount=%s, price=%s, qtyAvail=%s, merchant=%s, image_1=%s, image_2=%s, image_3=%s, categories=%s]",
 				id, title, summary, description, discount, price, qtyAvail, merchant, Arrays.toString(image_1),
 				Arrays.toString(image_2), Arrays.toString(image_3), category);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((merchant == null) ? 0 : merchant.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (merchant == null) {
+			if (other.merchant != null)
+				return false;
+		} else if (!merchant.equals(other.merchant))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
 	}
 
 	
