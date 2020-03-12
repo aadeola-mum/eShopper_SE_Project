@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cs425.team4.eshopper.dao.MerchantRepository;
 import cs425.team4.eshopper.dao.UserRepository;
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.Role;
@@ -24,10 +25,12 @@ import cs425.team4.eshopper.utils.Constants;
 @Service
 public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
+	private MerchantRepository merchantRepository;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository) {
+	public UserServiceImpl(UserRepository userRepository, MerchantRepository merchantRepository) {
 		this.userRepository = userRepository;
+		this.merchantRepository = merchantRepository;
 	}
 
 	@Override
@@ -89,5 +92,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Iterable<User> listMerchants() {
 		return userRepository.findByRoleId(2);
+	}
+
+	@Override
+	public Optional<Merchant> findMerchantById(Long userId) {
+		return merchantRepository.findById(userId);
 	}
 }

@@ -3,21 +3,34 @@ package cs425.team4.eshopper.models;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.stereotype.Indexed;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity(name = "products")
 @SecondaryTable(name = "product_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "product_id"))
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"merchant_user_id","title"})})
 public class Product {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -37,8 +50,10 @@ public class Product {
 	@NotNull(message = "Quantity Available field is required")
 	private long qtyAvail;
 	
-	@NotNull 
-	@ManyToOne 
+	private boolean isAvailable = true;
+	 
+	@JsonIgnoreProperties("merchant")
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Merchant merchant;
 	
 	@Column(table = "product_details", nullable = true, columnDefinition = "LONGBLOB")
@@ -53,9 +68,10 @@ public class Product {
 	@Lob
 	private byte[] image_3;
 	
-	@ManyToMany
+	@JsonBackReference
+	@OneToOne(cascade = CascadeType.ALL)
 	@NotNull(message = "Category field is required")
-	private List<ProductCategory> categories;
+	private ProductCategory category;
 
 	/**
 	 * 
@@ -119,6 +135,22 @@ public class Product {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	
+
+	/**
+	 * @return the category
+	 */
+	public ProductCategory getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(ProductCategory category) {
+		this.category = category;
 	}
 
 	/**
@@ -220,19 +252,20 @@ public class Product {
 	public void setImage_3(byte[] image_3) {
 		this.image_3 = image_3;
 	}
-
+	
+	
 	/**
-	 * @return the categories
+	 * @return the isAvailable
 	 */
-	public List<ProductCategory> getCategories() {
-		return categories;
+	public boolean isAvailable() {
+		return isAvailable;
 	}
 
 	/**
-	 * @param categories the categories to set
+	 * @param isAvailable the isAvailable to set
 	 */
-	public void setCategories(List<ProductCategory> categories) {
-		this.categories = categories;
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 
 	@Override
@@ -240,7 +273,7 @@ public class Product {
 		return String.format(
 				"Product [id=%s, title=%s, summary=%s, description=%s, discount=%s, price=%s, qtyAvail=%s, merchant=%s, image_1=%s, image_2=%s, image_3=%s, categories=%s]",
 				id, title, summary, description, discount, price, qtyAvail, merchant, Arrays.toString(image_1),
-				Arrays.toString(image_2), Arrays.toString(image_3), categories);
+				Arrays.toString(image_2), Arrays.toString(image_3), category);
 	}
 
 	

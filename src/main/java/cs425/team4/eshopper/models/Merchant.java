@@ -31,18 +31,24 @@ public class Merchant extends User {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address officeAddress;
 	
+	@NotBlank(message = "Business Name field is required")
+	@Column( nullable = false)
+	private String bizName;
+	
 	@NotBlank(message = "Office Phone 1 field is required")
 	@Column(name="office_phone_1", nullable = false)
 	private String officePhoneNumber1;
+	
 	@Column(name="office_phone_2", nullable = true)
 	private String officePhoneNumber2;
+	
 	@Column(name="identity_proof_img_url", nullable = true)
 	private String identityProof;
 	
 	@Column(name="can_sell")
 	private boolean approved = false;
 	
-	@OneToMany(mappedBy = "merchant")
+	@OneToMany(mappedBy = "merchant", cascade = CascadeType.ALL)
 	private List<Product> products;
 	
 	

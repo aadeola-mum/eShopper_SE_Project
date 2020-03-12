@@ -31,6 +31,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 
 
@@ -58,6 +60,7 @@ public class User implements Serializable {
 	
 	@NotBlank @NotEmpty(message = "Please provide a last name.")
 	private String lastName;
+	
 	
 	@NotBlank(message = "Please provide a password.")
 	private String password;

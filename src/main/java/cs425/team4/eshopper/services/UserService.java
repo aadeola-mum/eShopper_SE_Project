@@ -23,4 +23,5 @@ public interface UserService {
     public User updateUser(User user);
     public User setUserPassword(String username, String newPassword);
 	public User findUserById(Long userId);
+	public Optional<Merchant> findMerchantById(Long userId);
 }

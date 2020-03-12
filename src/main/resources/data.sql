@@ -16,6 +16,5 @@ INSERT IGNORE INTO users (username, enabled, first_name, last_name, password, ro
 -- ("FKfg7xadxcbpdlpw5wgp6ynd2wg", "ROLE_BUYER"),
 -- ("FKkv46dn3qakjvsk7ra33nd5sns", "ROLE_BUYER");
 
-REPLACE INTO merchants (user_id,office_phone_1, can_sell) VALUES (
-2,"641 819 1136", TRUE
-);
+REPLACE INTO merchants (user_id,biz_name,office_phone_1, can_sell) VALUES 
+(2,"Walco Mart","641 819 1136", TRUE),(7,"Pacific Markets","641 819 1136", TRUE);
