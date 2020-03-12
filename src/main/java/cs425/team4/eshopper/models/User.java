@@ -32,6 +32,9 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import cs425.team4.eshopper.View;
 
 
 
@@ -50,6 +53,7 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = -1797511201371820987L;
 	
+	@JsonView(View.Summary.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", updatable = false, nullable = false)
@@ -66,11 +70,14 @@ public class User implements Serializable {
 	private String password;
 	
 	private boolean enabled;
+	
+	@JsonView(View.Summary.class)
 	@Column(unique = true)
 	@NotBlank(message = "Please provide an username.")
 	@Email(message = "Please provide a valid email.")
 	private String username;
 	
+	@JsonView(View.Summary.class)
 	@ManyToOne(cascade = CascadeType.MERGE)
 	//@NotNull(message = "Please provide at least one role.")
 	private Role role;

@@ -27,32 +27,45 @@ import org.springframework.stereotype.Indexed;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import cs425.team4.eshopper.View;
 
 @Entity(name = "products")
 @SecondaryTable(name = "product_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "product_id"))
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"merchant_user_id","title"})})
 public class Product {
+	@JsonView(View.Summary.class)
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	
+	@JsonView(View.Summary.class)
 	@NotBlank(message = "Title field is required")
 	private String title;
+	
+	@JsonView(View.Summary.class)
 	@NotBlank(message = "Summary field is required")
 	private String summary;
+	
+	@JsonView(View.Summary.class)
 	@NotBlank(message = "Description field is required")
 	private String description;
+	
+	@JsonView(View.Summary.class)
 	@NotNull(message = "Discount field is required")
 	private double discount;
+	
+	@JsonView(View.Summary.class)
 	@NotNull(message = "Price field is required")
 	private double price;
 	
+	@JsonView(View.Summary.class)
 	@NotNull(message = "Quantity Available field is required")
 	private long qtyAvail;
 	
 	private boolean isAvailable = true;
 	 
-	@JsonIgnoreProperties("merchant")
+	@JsonView(View.Summary.class)
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Merchant merchant;
 	

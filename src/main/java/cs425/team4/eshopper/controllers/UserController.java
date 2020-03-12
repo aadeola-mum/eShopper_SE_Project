@@ -28,6 +28,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
+import cs425.team4.eshopper.View;
 import cs425.team4.eshopper.exceptions.AdminsCannotDeleteThemselvesException;
 import cs425.team4.eshopper.exceptions.ItemNotFoundException;
 import cs425.team4.eshopper.factory.UserFactory;
@@ -93,7 +97,7 @@ public class UserController {
 			    response.put("account", userDetail.getUser().getUsername());
 	        return ResponseEntity.ok(response);
 	    }
-
+	    @JsonView(View.Summary.class)
 	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	    @PostMapping("/register")
 	    public User createUser(@RequestBody @Valid User user) {
@@ -101,7 +105,7 @@ public class UserController {
 	        return userService.saveUser(userFactory.createUser(user,"buyer"));
 	    	//return userService.saveUser(user);
 	    }
-	    
+	    @JsonView(View.Summary.class)
 	    @Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	    @PostMapping("/merchants/register")
 	    public User createMerchant(@RequestBody @Valid Merchant user) {
@@ -128,7 +132,7 @@ public class UserController {
 //
 //	        return ResponseEntity.created(location).build();
 //	    }
-
+	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN"})
 	    @GetMapping("/buyers")
 	    public Iterable<User> allBuyers() {
@@ -137,17 +141,17 @@ public class UserController {
 
 	    @Secured(value = {"ROLE_ADMIN"})
 	    @GetMapping("/merchants")
-	    public Iterable<User> allMerchants() {
+	    public Iterable<Merchant> allMerchants() {
 	        return userService.listMerchants();
 	    }
-
+	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
 	    @GetMapping("/{username}")
 	    public User one(@PathVariable String username) {
 	        return userService.findUserByUsername(username)
 	        		.orElseThrow(() -> new ItemNotFoundException(username, User.class));
 	    }
-	    
+	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
 	    @GetMapping("/{userId}")
 	    public User one(@PathVariable long userId) {

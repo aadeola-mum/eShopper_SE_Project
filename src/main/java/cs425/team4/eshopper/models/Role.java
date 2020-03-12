@@ -2,6 +2,11 @@ package cs425.team4.eshopper.models;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
+import cs425.team4.eshopper.View;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +16,7 @@ public class Role {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
+    @JsonView(View.Summary.class)
     @Column(nullable = false, unique = true)
     private String type;
     

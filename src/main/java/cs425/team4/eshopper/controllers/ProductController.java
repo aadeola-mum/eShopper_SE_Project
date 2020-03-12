@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import cs425.team4.eshopper.View;
 import cs425.team4.eshopper.exceptions.ItemNotFoundException;
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.Product;
@@ -41,12 +44,14 @@ public class ProductController {
 	@Autowired
 	private UserService userService;
 	
+	@JsonView(View.Summary.class)
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	@GetMapping(value = { "/list","/"})
 	public Iterable<Product> fetchProducts(){
 		return productService.getAll();
-		
 	}
+	
+	@JsonView(View.Summary.class)
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	@GetMapping("/{productId}")
 	public Product fetchProduct(@PathVariable("productId") long productId){
@@ -63,6 +68,7 @@ public class ProductController {
 		return productService.delete(productId);
 	}
 	
+	@JsonView(View.Summary.class)
 	@Secured(value = {"ROLE_MERCHANT", "ROLE_ADMIN"})
 	@PostMapping("/{merchantId}")
 	public Product save(@Valid @RequestBody Product product, @PathVariable long merchantId) throws Exception{
