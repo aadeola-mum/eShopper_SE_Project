@@ -42,7 +42,7 @@ public class ProductController {
 	private UserService userService;
 	
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
-	@GetMapping("/list")
+	@GetMapping(value = { "/list","/"})
 	public Iterable<Product> fetchProducts(){
 		return productService.getAll();
 		

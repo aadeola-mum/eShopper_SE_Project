@@ -26,6 +26,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Indexed;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "products")
 @SecondaryTable(name = "product_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "product_id"))
@@ -51,6 +52,7 @@ public class Product {
 	
 	private boolean isAvailable = true;
 	 
+	@JsonIgnoreProperties("merchant")
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Merchant merchant;
 	
