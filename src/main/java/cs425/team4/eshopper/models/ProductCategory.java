@@ -1,6 +1,7 @@
 package cs425.team4.eshopper.models;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -30,9 +32,12 @@ public class ProductCategory {
 	@Column(nullable = false)
 	private String category;
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "category")
-	private List<Product> products;
+	//@JsonManagedReference
+	@ManyToMany(mappedBy = "category")
+	private Set<Product> products;
+	
+	@JsonView(View.Summary.class)
+	private double taxInPercentage = 1.00;
 
 	/**
 	 * 
@@ -43,6 +48,20 @@ public class ProductCategory {
 	}
 	
 	
+	
+	
+
+	/**
+	 * @param id
+	 */
+	public ProductCategory(Long id) {
+		super();
+		this.id = id;
+	}
+
+
+
+
 
 	/**
 	 * @param category
@@ -83,18 +102,70 @@ public class ProductCategory {
 	}
 
 	/**
+	 * @return the taxInPercentage
+	 */
+	public double getTaxInPercentage() {
+		return taxInPercentage;
+	}
+
+	/**
+	 * @param taxInPercentage the taxInPercentage to set
+	 */
+	public void setTaxInPercentage(double taxInPercentage) {
+		this.taxInPercentage = taxInPercentage;
+	}
+
+	/**
 	 * @return the products
 	 */
-	public List<Product> getProducts() {
+	public Set<Product> getProducts() {
 		return products;
 	}
+
+
 
 	/**
 	 * @param products the products to set
 	 */
-	public void setProducts(List<Product> products) {
+	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductCategory other = (ProductCategory) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
 	
 	
 	
