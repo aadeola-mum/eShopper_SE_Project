@@ -35,7 +35,7 @@ import cs425.team4.eshopper.View;
 
 @Entity(name = "products")
 @SecondaryTable(name = "product_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "product_id"))
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"merchant_user_id","title"})})
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"merchant_id","title"})})
 public class Product {
 	@JsonView(View.Summary.class)
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,6 +72,7 @@ public class Product {
 	 
 	@JsonView(View.Summary.class)
 	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="merchant_id")
 	private Merchant merchant;
 	
 	@Column(table = "product_details", nullable = true, columnDefinition = "LONGBLOB")
@@ -87,14 +88,14 @@ public class Product {
 	private byte[] image_3;
 	
 	//@JsonBackReference
-	@ManyToMany(/*cascade = CascadeType.ALL*/)
-	@JoinTable(
-			name = "products_categories", 
-			joinColumns = @JoinColumn(name ="product_id"), 
-			inverseJoinColumns = @JoinColumn(name ="category_id")
-	)
+	@ManyToOne(/*cascade = CascadeType.ALL*/)
+//	@JoinTable(
+//			name = "products_categories", 
+//			joinColumns = @JoinColumn(name ="product_id"), 
+//			inverseJoinColumns = @JoinColumn(name ="category_id")
+//	)
 	@NotNull(message = "Category field is required")
-	private Set<ProductCategory> category;
+	private ProductCategory category;
 
 	/**
 	 * 
@@ -162,14 +163,14 @@ public class Product {
 	/**
 	 * @return the category
 	 */
-	public Set<ProductCategory> getCategory() {
+	public ProductCategory getCategory() {
 		return category;
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(Set<ProductCategory> category) {
+	public void setCategory(ProductCategory category) {
 		this.category = category;
 	}
 

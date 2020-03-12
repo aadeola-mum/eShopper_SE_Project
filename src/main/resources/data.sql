@@ -9,13 +9,17 @@ INSERT IGNORE INTO users (username, enabled, first_name, last_name, password, ro
 ("eauser3@miu.edu", TRUE, "Merchant", "Walmart", "eauser3", 2),
 ("eauser4@miu.edu", TRUE, "Merchant", "Target", "eauser4", 2);  /* id: 6 */
 
--- REPLACE INTO user_roles VALUES
--- ("FKbhsm8kfi2wv0q1j4hqfkiy55o", "ROLE_ADMIN"),
--- ("FKrc4tsdyh4bifeova984j3bugr", "ROLE_MERCHANT"),
--- ("FK4wdjpiuhg2u14dx09poivlmri", "ROLE_BUYER"),
--- ("FKjyl73hgoxq0hjalhx4on4cf1", "ROLE_BUYER"),
--- ("FKfg7xadxcbpdlpw5wgp6ynd2wg", "ROLE_BUYER"),
--- ("FKkv46dn3qakjvsk7ra33nd5sns", "ROLE_BUYER");
-
 REPLACE INTO merchants (user_id,biz_name,office_phone_1, can_sell) VALUES 
-(2,"Walco Mart","641 819 1136", TRUE),(7,"Pacific Markets","641 819 1136", TRUE);
+(2,"Walco Mart","641 819 1136", TRUE),(7,"Pacific Markets","641 819 1136", TRUE),(6,"Amazon Techs","641 819 1136", TRUE);
+
+INSERT IGNORE INTO products (description,discount,price, qty_avail, summary, title, category_id, merchant_id,is_available) VALUES 
+("Plasma TV from LG is so beautifully crafted",6, 256.98, 13, "LG Plasma TV ", "LG Plasma TV 32 Inch Screen",1,2,1),
+("Facade Jewelleries is fitted for all occcasions",4, 1996.98, 12, "Facade Gold Necklace 23 Karate Gold", "Facade Gold Necklace 23 Karate Gold",3,7,1),
+("Brand New Laptop",2, 456.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456",2,2,1),
+("Plasma TV from LG is so beautifully crafted",6, 256.98, 13, "LG Plasma TV ", "LG Plasma TV 32 Inch Screen",1,1,1),
+("Facade Jewelleries is fitted for all occcasions",4, 1996.98, 12, "Facade Gold Necklace 23 Karate Gold", "Facade Gold Necklace 23 Karate Gold",3,2,1),
+("Brand New Laptop",2, 456.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456",2,6,1),
+("Plasma TV from LG is so beautifully crafted",6, 256.98, 13, "LG Plasma TV ", "LG Plasma TV 32 Inch Screen",1,6,1),
+("Facade Jewelleries is fitted for all occcasions",4, 1996.98, 12, "Facade Gold Necklace 23 Karate Gold", "Facade Gold Necklace 23 Karate Gold",3,6,1),
+("Brand New Laptop",2, 456.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456",2,6,1),
+("Brand New Laptop",2, 496.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456 20GB RAM",2,7,1);
