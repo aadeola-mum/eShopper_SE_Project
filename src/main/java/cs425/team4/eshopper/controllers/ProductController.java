@@ -3,8 +3,6 @@
  */
 package cs425.team4.eshopper.controllers;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
 import cs425.team4.eshopper.View;
-import cs425.team4.eshopper.exceptions.ItemNotFoundException;
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.Product;
-import cs425.team4.eshopper.models.User;
 import cs425.team4.eshopper.services.ProductService;
 import cs425.team4.eshopper.services.UserService;
 
