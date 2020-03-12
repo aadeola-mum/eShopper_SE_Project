@@ -15,6 +15,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import cs425.team4.eshopper.View;
+
 
 /**
  * @author miu
@@ -31,6 +35,7 @@ public class Merchant extends User {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address officeAddress;
 	
+	@JsonView(View.Summary.class)
 	@NotBlank(message = "Business Name field is required")
 	@Column( nullable = false)
 	private String bizName;

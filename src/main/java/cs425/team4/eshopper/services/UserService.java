@@ -18,7 +18,7 @@ public interface UserService {
     public User saveUser(User account);
     public Iterable<User> listUsers();
     public Iterable<User> listBuyers();
-    public Iterable<User> listMerchants();
+    public Iterable<Merchant> listMerchants();
     public void deleteUser(User user);
     public User updateUser(User user);
     public User setUserPassword(String username, String newPassword);

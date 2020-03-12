@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,8 +91,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Iterable<User> listMerchants() {
-		return userRepository.findByRoleId(2);
+	public Iterable<Merchant> listMerchants() {
+		return merchantRepository.findAll();
 	}
 
 	@Override

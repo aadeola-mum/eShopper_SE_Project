@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import cs425.team4.eshopper.View;
 
 @Entity
 public class ProductCategory {
@@ -22,6 +25,7 @@ public class ProductCategory {
 	@Column(updatable = false, nullable = false)
 	private Long id;
 	
+	@JsonView(View.Summary.class)
 	@NotBlank(message = "Category field required")
 	@Column(nullable = false)
 	private String category;
