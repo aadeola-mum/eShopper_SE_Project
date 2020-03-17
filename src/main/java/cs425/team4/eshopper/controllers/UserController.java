@@ -153,10 +153,9 @@ public class UserController {
 	    }
 	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
-	    @GetMapping("/admin/{userId}")
+	    @GetMapping("/id/{userId}")
 	    public User one(@PathVariable long userId) {
 	        return userService.findUserById(userId);
-	     
 	    }
 
 	    @Secured(value = {"ROLE_ADMIN"})
