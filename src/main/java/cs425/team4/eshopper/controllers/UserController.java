@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,6 +38,7 @@ import cs425.team4.eshopper.exceptions.AdminsCannotDeleteThemselvesException;
 import cs425.team4.eshopper.exceptions.ItemNotFoundException;
 import cs425.team4.eshopper.factory.UserFactory;
 import cs425.team4.eshopper.models.Merchant;
+import cs425.team4.eshopper.models.Order;
 import cs425.team4.eshopper.models.User;
 import cs425.team4.eshopper.services.UserService;
 import cs425.team4.eshopper.services.Impl.UserDetailsImpl;
@@ -144,6 +147,18 @@ public class UserController {
 	    public Iterable<Merchant> allMerchants() {
 	        return userService.listMerchants();
 	    }
+	    
+	    //@JsonView(View.Summary.class)
+	    @Secured(value = {"ROLE_ADMIN"})
+		@GetMapping(value = {"/merchantsByStatus"})
+		public Page<Merchant> getAllMerchantByApproveAndPageAndSize(
+				@RequestParam(name = "status" , defaultValue = "0") int status,
+				@RequestParam(name = "page" , defaultValue = "0") int page,
+				@RequestParam(name = "size" , defaultValue = "10") int size){
+			
+			return userService.getListByApproveStatus(status, page, size); 
+		}
+	    
 	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
 	    @GetMapping("/{username}")

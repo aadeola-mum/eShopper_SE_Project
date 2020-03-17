@@ -5,6 +5,9 @@ package cs425.team4.eshopper.services;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.User;
 
@@ -24,4 +27,6 @@ public interface UserService {
     public User setUserPassword(String username, String newPassword);
 	public User findUserById(Long userId);
 	public Optional<Merchant> findMerchantById(Long userId);
+	
+	public Page<Merchant> getListByApproveStatus(int status, int page, int size);
 }

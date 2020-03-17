@@ -8,6 +8,9 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -98,5 +101,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<Merchant> findMerchantById(Long userId) {
 		return merchantRepository.findById(userId);
+	}
+
+	@Override
+	public Page<Merchant> getListByApproveStatus(int status, int page, int size) {
+		if(page < 0) page = 0;
+		if(size <= 0) size = 10;
+		Pageable pageable = PageRequest.of(page , size);
+		boolean stat = status == 1 ? true : false;
+		return merchantRepository.findByApproved(stat, pageable);
 	}
 }
