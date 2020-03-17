@@ -39,6 +39,7 @@ import cs425.team4.eshopper.exceptions.ItemNotFoundException;
 import cs425.team4.eshopper.factory.UserFactory;
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.Order;
+import cs425.team4.eshopper.models.Product;
 import cs425.team4.eshopper.models.User;
 import cs425.team4.eshopper.services.UserService;
 import cs425.team4.eshopper.services.Impl.UserDetailsImpl;
@@ -135,17 +136,24 @@ public class UserController {
 //
 //	        return ResponseEntity.created(location).build();
 //	    }
+	    
+	    
 	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN"})
 	    @GetMapping("/buyers")
-	    public Iterable<User> allBuyers() {
-	        return userService.listBuyers();
+	    public Page<User> allBuyers(
+	    		@RequestParam(name = "page" , defaultValue = "0") int page, 
+				@RequestParam(name = "size" , defaultValue = "10") int size) {
+	        return userService.listBuyers(page, size);
 	    }
-
+	    
+	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN"})
 	    @GetMapping("/merchants")
-	    public Iterable<Merchant> allMerchants() {
-	        return userService.listMerchants();
+	    public Page<Merchant> allMerchants(
+	    		@RequestParam(name = "page" , defaultValue = "0") int page, 
+				@RequestParam(name = "size" , defaultValue = "10") int size) {
+	        return userService.listMerchant(page, size);
 	    }
 	    
 	    //@JsonView(View.Summary.class)
@@ -158,7 +166,7 @@ public class UserController {
 			
 			return userService.getListByApproveStatus(status, page, size); 
 		}
-	    
+
 	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
 	    @GetMapping("/{username}")

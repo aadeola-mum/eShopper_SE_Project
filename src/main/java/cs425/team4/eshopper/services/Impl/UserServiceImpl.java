@@ -1,7 +1,5 @@
 package cs425.team4.eshopper.services.Impl;
 
-
-
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -23,8 +21,6 @@ import cs425.team4.eshopper.models.Role;
 import cs425.team4.eshopper.models.User;
 import cs425.team4.eshopper.services.UserService;
 import cs425.team4.eshopper.utils.Constants;
-
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -89,11 +85,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Iterable<User> listBuyers() {
-		return userRepository.findByRoleId(1);
-	}
-
-	@Override
 	public Iterable<Merchant> listMerchants() {
 		return merchantRepository.findAll();
 	}
@@ -104,11 +95,27 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public Page<Merchant> getListByApproveStatus(int status, int page, int size) {
 		if(page < 0) page = 0;
 		if(size <= 0) size = 10;
 		Pageable pageable = PageRequest.of(page , size);
 		boolean stat = status == 1 ? true : false;
 		return merchantRepository.findByApproved(stat, pageable);
+=======
+	public Page<User> listBuyers(int page, int size) {
+		if(page < 0) page = 0;
+		if(size <= 0) size = 10;
+		Pageable pageable = PageRequest.of(page , size, Sort.by("firstName"));
+		return userRepository.findAll(pageable);
+	}
+
+	@Override
+	public Page<Merchant> listMerchant(int page, int size) {
+		if(page < 0) page = 0;
+		if(size <= 0) size = 10;
+		Pageable pageable = PageRequest.of(page , size, Sort.by("firstName"));
+		return merchantRepository.findAll(pageable);
+>>>>>>> b9237e512a59986a40527c0002fcb792a595d0e2
 	}
 }
