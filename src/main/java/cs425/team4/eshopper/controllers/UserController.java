@@ -6,6 +6,7 @@ package cs425.team4.eshopper.controllers;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -166,6 +167,26 @@ public class UserController {
 			
 			return userService.getListByApproveStatus(status, page, size); 
 		}
+
+	    @Secured(value = {"ROLE_ADMIN"})
+	    @PutMapping("/merchantApproval/{merchantId}/{approvalStatus}")
+	    public boolean merchantApproval(@PathVariable("merchantId") long merchantId, @PathVariable("approvalStatus") int status ) {
+	        Merchant m = userService.findMerchantById(merchantId).get();
+	        if(m != null) {
+	        	if(status != 1 && status != 0)
+	        		throw new ItemNotFoundException("Invalid status sent", status); 
+	        	if(m.isApproved() && status == 1) {
+	        		throw new ItemNotFoundException("Merchant Already Approved", merchantId); 
+	        	}
+	        	m.setApproved(status == 1 ? true : false);
+	        	userService.saveUser(m);
+	        	return true;
+	        }
+	        else {
+	        	throw new ItemNotFoundException("Invalid MerchantId", merchantId); 
+	        }
+	    }
+	    
 
 	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
