@@ -95,6 +95,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+
+	public Page<Merchant> getListByApproveStatus(int status, int page, int size) {
+		if (page < 0) page = 0;
+		if (size <= 0) size = 10;
+		Pageable pageable = PageRequest.of(page, size);
+		boolean stat = status == 1 ? true : false;
+		return merchantRepository.findByApproved(stat, pageable);
+	}
+
 	public Page<User> listBuyers(int page, int size) {
 		if(page < 0) page = 0;
 		if(size <= 0) size = 10;

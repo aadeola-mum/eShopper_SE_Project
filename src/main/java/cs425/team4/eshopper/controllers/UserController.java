@@ -6,6 +6,7 @@ package cs425.team4.eshopper.controllers;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -38,6 +39,7 @@ import cs425.team4.eshopper.exceptions.AdminsCannotDeleteThemselvesException;
 import cs425.team4.eshopper.exceptions.ItemNotFoundException;
 import cs425.team4.eshopper.factory.UserFactory;
 import cs425.team4.eshopper.models.Merchant;
+import cs425.team4.eshopper.models.Order;
 import cs425.team4.eshopper.models.Product;
 import cs425.team4.eshopper.models.User;
 import cs425.team4.eshopper.services.UserService;
@@ -154,7 +156,38 @@ public class UserController {
 				@RequestParam(name = "size" , defaultValue = "10") int size) {
 	        return userService.listMerchant(page, size);
 	    }
+
+	    //@JsonView(View.Summary.class)
+	    @Secured(value = {"ROLE_ADMIN"})
+		@GetMapping(value = {"/merchantsByStatus"})
+		public Page<Merchant> getAllMerchantByApproveAndPageAndSize(
+				@RequestParam(name = "status" , defaultValue = "0") int status,
+				@RequestParam(name = "page" , defaultValue = "0") int page,
+				@RequestParam(name = "size" , defaultValue = "10") int size){
+			
+			return userService.getListByApproveStatus(status, page, size); 
+		}
+
+	    @Secured(value = {"ROLE_ADMIN"})
+	    @PutMapping("/merchantApproval/{merchantId}/{approvalStatus}")
+	    public boolean merchantApproval(@PathVariable("merchantId") long merchantId, @PathVariable("approvalStatus") int status ) {
+	        Merchant m = userService.findMerchantById(merchantId).get();
+	        if(m != null) {
+	        	if(status != 1 && status != 0)
+	        		throw new ItemNotFoundException("Invalid status sent", status); 
+	        	if(m.isApproved() && status == 1) {
+	        		throw new ItemNotFoundException("Merchant Already Approved", merchantId); 
+	        	}
+	        	m.setApproved(status == 1 ? true : false);
+	        	userService.saveUser(m);
+	        	return true;
+	        }
+	        else {
+	        	throw new ItemNotFoundException("Invalid MerchantId", merchantId); 
+	        }
+	    }
 	    
+
 	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
 	    @GetMapping("/{username}")

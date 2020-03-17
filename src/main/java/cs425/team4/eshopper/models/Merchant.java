@@ -50,6 +50,7 @@ public class Merchant extends User {
 	@Column(name="identity_proof_img_url", nullable = true)
 	private String identityProof;
 	
+	@JsonView(View.Summary.class)
 	@Column(name="can_sell")
 	private boolean approved = false;
 	
