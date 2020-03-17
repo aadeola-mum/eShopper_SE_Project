@@ -31,7 +31,7 @@ public class OrderController {
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	@GetMapping(value = {"/" , "/list"})
 	public Page<Order> getAllOrderByPageAndSize(
-			@RequestParam(name = "page" , defaultValue = "0") int page, 
+			@RequestParam(name = "page" , defaultValue = "0") int page,
 			@RequestParam(name = "size" , defaultValue = "10") int size){
 		
 		return this.orderService.findAllbyPageAndSize(page, size); 
@@ -42,7 +42,7 @@ public class OrderController {
 	}
 	
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
-	@GetMapping(value = "{/{id}")
+	@GetMapping(value = "/{id}")
 	public Order getOrderById(@PathVariable(name = "id") long id) {
 		if(id < 0) return null;
 		
