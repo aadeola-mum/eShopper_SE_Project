@@ -16,7 +16,7 @@ INSERT IGNORE INTO products (description,discount,price, qty_avail, summary, tit
 ("Plasma TV from LG is so beautifully crafted",6, 256.98, 13, "LG Plasma TV ", "LG Plasma TV 32 Inch Screen",1,2,1),
 ("Facade Jewelleries is fitted for all occcasions",4, 1996.98, 12, "Facade Gold Necklace 23 Karate Gold", "Facade Gold Necklace 23 Karate Gold",3,7,1),
 ("Brand New Laptop",2, 456.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456",2,2,1),
-("Plasma TV from LG is so beautifully crafted",6, 256.98, 13, "LG Plasma TV ", "LG Plasma TV 32 Inch Screen",1,1,1),
+
 ("Facade Jewelleries is fitted for all occcasions",4, 1996.98, 12, "Facade Gold Necklace 23 Karate Gold", "Facade Gold Necklace 23 Karate Gold",3,2,1),
 ("Brand New Laptop",2, 456.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456",2,6,1),
 ("Plasma TV from LG is so beautifully crafted",6, 256.98, 13, "LG Plasma TV ", "LG Plasma TV 32 Inch Screen",1,6,1),
