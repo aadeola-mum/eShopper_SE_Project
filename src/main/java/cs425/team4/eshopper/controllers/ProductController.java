@@ -6,6 +6,7 @@ package cs425.team4.eshopper.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
 import cs425.team4.eshopper.View;
 import cs425.team4.eshopper.models.Merchant;
+import cs425.team4.eshopper.models.Order;
 import cs425.team4.eshopper.models.Product;
 import cs425.team4.eshopper.services.ProductService;
 import cs425.team4.eshopper.services.UserService;
@@ -41,9 +44,11 @@ public class ProductController {
 	
 	@JsonView(View.Summary.class)
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
-	@GetMapping(value = { "/list","/"})
-	public Iterable<Product> fetchProducts(){
-		return productService.getAll();
+	@GetMapping(value = { "/list/","/"})
+	public Page<Product> fetchProduct(
+			@RequestParam(name = "page" , defaultValue = "0") int page, 
+			@RequestParam(name = "size" , defaultValue = "10") int size){		
+		return productService.findAllbyPageAndSize(page, size); 
 	}
 	
 	@JsonView(View.Summary.class)
@@ -54,6 +59,28 @@ public class ProductController {
 			return productService.get(productId).get();
 		else
 			return null;
+		
+	}
+	
+	@JsonView(View.Summary.class)
+	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	@GetMapping("/")
+	public Page<Product> fetchProductByKeyword(
+			@RequestParam(name = "page" , defaultValue = "0") int page, 
+			@RequestParam(name = "size" , defaultValue = "10") int size,
+			@RequestParam("keyword") String keyword){
+		return productService.search(page, size, keyword);
+		
+	}
+	
+	@JsonView(View.Summary.class)
+	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	@GetMapping("/category/")
+	public Page<Product> fetchProductByCategory(
+			@RequestParam(name = "page" , defaultValue = "0") int page, 
+			@RequestParam(name = "size" , defaultValue = "10") int size,
+			@RequestParam("keyword") String category){
+		return productService.searchByCategory(page, size, category);
 		
 	}
 	
