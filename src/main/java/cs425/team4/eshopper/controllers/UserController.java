@@ -155,7 +155,7 @@ public class UserController {
 				@RequestParam(name = "size" , defaultValue = "10") int size) {
 	        return userService.listMerchant(page, size);
 	    }
-	    
+
 	    //@JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN"})
 		@GetMapping(value = {"/merchantsByStatus"})
