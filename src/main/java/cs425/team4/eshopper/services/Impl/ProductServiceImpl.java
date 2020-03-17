@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
 	public Page<Product> searchByCategory(int page, int size, String category) {
 		if(page < 0) page = 0;
 		if(size <= 0) size = 10;
-		Pageable pageable = PageRequest.of(page , size, Sort.by("title"));	
+		Pageable pageable = PageRequest.of(page , size);	
 		return this.productRepository.findByCategory(category, pageable);
 	}
 

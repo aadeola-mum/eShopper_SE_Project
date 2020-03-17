@@ -75,7 +75,7 @@ public class ProductController {
 	
 	@JsonView(View.Summary.class)
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
-	@GetMapping("/")
+	@GetMapping("/category/")
 	public Page<Product> fetchProductByCategory(
 			@RequestParam(name = "page" , defaultValue = "0") int page, 
 			@RequestParam(name = "size" , defaultValue = "10") int size,
