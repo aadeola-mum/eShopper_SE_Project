@@ -44,11 +44,18 @@ public class ProductController {
 	
 	@JsonView(View.Summary.class)
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
-	@GetMapping(value = { "/list/","/"})
+	@GetMapping(value = { "/list/page/"})
 	public Page<Product> fetchProduct(
 			@RequestParam(name = "page" , defaultValue = "0") int page, 
 			@RequestParam(name = "size" , defaultValue = "10") int size){		
 		return productService.findAllbyPageAndSize(page, size); 
+	}
+	
+	@JsonView(View.Summary.class)
+	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	@GetMapping(value = { "/list/","/"})
+	public Iterable<Product> fetchAllProduct(){		
+		return productService.findAll(); 
 	}
 	
 	@JsonView(View.Summary.class)
@@ -64,7 +71,7 @@ public class ProductController {
 	
 	@JsonView(View.Summary.class)
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
-	@GetMapping("/")
+	@GetMapping("/keyword/")
 	public Page<Product> fetchProductByKeyword(
 			@RequestParam(name = "page" , defaultValue = "0") int page, 
 			@RequestParam(name = "size" , defaultValue = "10") int size,
