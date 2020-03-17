@@ -154,13 +154,6 @@ public class UserController {
 				@RequestParam(name = "size" , defaultValue = "10") int size) {
 	        return userService.listMerchant(page, size);
 	    }
-
-	    @Secured(value = {"ROLE_ADMIN"})
-	    @GetMapping("/merchants")
-	    public Iterable<Merchant> allMerchants() {
-	        return userService.listMerchants();
-	    }
-	    
 	    
 	    @JsonView(View.Summary.class)
 	    @Secured(value = {"ROLE_ADMIN","ROLE_MERCHANT","ROLE_BUYER"})
