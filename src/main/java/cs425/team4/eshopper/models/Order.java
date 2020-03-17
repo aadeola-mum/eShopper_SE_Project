@@ -29,21 +29,36 @@ public class Order {
 
     @NotNull
     @Column(nullable = false)
-    private Boolean paid;
+    private boolean paid;
 
     @NotNull
     @Column(nullable = false)
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
+    @NotNull @Min(0)
+    @Column(nullable = false)
+    private double discount;
+
+    @NotNull @Min(0)
+    @Column(nullable = false)
+    private double price;
+
+    @NotNull @Min(0)
+    @Column(nullable = false)
+    private double tax;
+
     public Order() {
     }
 
-    public Order(String orderID, User buyer, LocalDate date, Boolean paid, List<OrderDetail> orderDetails ) {
+    public Order(String orderID, User buyer, LocalDate date, Boolean paid, double discount, double price, double tax, List<OrderDetail> orderDetails ) {
         this.orderID = orderID;
         this.buyer = buyer;
         this.date = date;
         this.paid = paid;
+        this.discount = discount;
+        this.price = price;
+        this.tax = tax;
         this.orderDetails = orderDetails;
     }
 
@@ -95,6 +110,22 @@ public class Order {
         this.paid = paid;
     }
 
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setTax(Double tax) {
+        this.tax = tax;
+    }
+
     public List<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
@@ -102,30 +133,40 @@ public class Order {
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
-    
-	public Double getTax() {
-		return this.getOrderDetails().stream()
-			.map(OrderDetail::getTax)
-			.collect(Collectors.summingDouble(Double::doubleValue));
+
+	public double getPrice() {
+		return price;
 	}
 
-	public Double getPrice() {
-		return this.orderDetails.stream()
-			.map(OrderDetail::getPrice)
-			.collect(Collectors.summingDouble(Double::doubleValue));
+	public double getTax() {
+		return tax;
 	}
-	
-	public Double getTotalPrice() {
-		return this.orderDetails.stream()
-			.map(OrderDetail::getTotalPrice)
-			.collect(Collectors.summingDouble(Double::doubleValue));
-	}
-	
-	public Double getTotalDiscount() {
-		return this.orderDetails.stream()
-			.map(od -> {
-				return Double.valueOf(od.getDiscount());
-			})
-			.collect(Collectors.summingDouble(Double::doubleValue));
-	}
+    
+    
+    
+//	public Double getTax() {
+//		return this.getOrderDetails().stream()
+//			.map(OrderDetail::getTax)
+//			.collect(Collectors.summingDouble(Double::doubleValue));
+//	}
+//
+//	public Double getPrice() {
+//		return this.orderDetails.stream()
+//			.map(OrderDetail::getPrice)
+//			.collect(Collectors.summingDouble(Double::doubleValue));
+//	}
+//	
+//	public Double getTotalPrice() {
+//		return this.orderDetails.stream()
+//			.map(OrderDetail::getTotalPrice)
+//			.collect(Collectors.summingDouble(Double::doubleValue));
+//	}
+//	
+//	public Double getTotalDiscount() {
+//		return this.orderDetails.stream()
+//			.map(od -> {
+//				return Double.valueOf(od.getDiscount());
+//			})
+//			.collect(Collectors.summingDouble(Double::doubleValue));
+//	}
 }
