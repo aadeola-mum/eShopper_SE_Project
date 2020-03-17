@@ -1,11 +1,17 @@
 package cs425.team4.eshopper.services.Impl;
 
 import java.util.Optional;
+import java.util.stream.Collector;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import cs425.team4.eshopper.dao.ProductRepository;
+import cs425.team4.eshopper.models.Order;
 import cs425.team4.eshopper.models.Product;
 import cs425.team4.eshopper.services.ProductService;
 
@@ -50,9 +56,27 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Iterable<Product> search(String searchText) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<Product> search(int page, int size, String searchText) {
+		if(page < 0) page = 0;
+		if(size <= 0) size = 10;
+		Pageable pageable = PageRequest.of(page , size, Sort.by("title"));	
+		return productRepository.findByTitleContaining(searchText, pageable);
+	}
+
+	@Override
+	public Page<Product> findAllbyPageAndSize(int page, int size) {
+		if(page < 0) page = 0;
+		if(size <= 0) size = 10;
+		Pageable pageable = PageRequest.of(page , size, Sort.by("title"));		
+		return this.productRepository.findAll(pageable);
+	}
+
+	@Override
+	public Page<Product> searchByCategory(int page, int size, String category) {
+		if(page < 0) page = 0;
+		if(size <= 0) size = 10;
+		Pageable pageable = PageRequest.of(page , size);	
+		return this.productRepository.findByCategory(category, pageable);
 	}
 
 }
