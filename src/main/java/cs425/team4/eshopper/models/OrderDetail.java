@@ -36,15 +36,25 @@ public class OrderDetail {
     @Column(nullable = false)
     private LocalDate date;
 
+    @NotNull @Min(0)
+    @Column(nullable = false)
+    private double price;
+
+    @NotNull @Min(0)
+    @Column(nullable = false)
+    private double tax;
+
     public OrderDetail() {
     }
 
-    public OrderDetail(Long orderId, Product product, Float discount, Integer quantity, LocalDate date) {
+    public OrderDetail(Long orderId, Product product, Float discount, Integer quantity, LocalDate date, double price, double tax) {
         this.orderId = orderId;
         this.product = product;
         this.discount = discount;
         this.quantity = quantity;
         this.date = date;
+        this.price = price;
+        this.tax = tax;
     }
 
     public Long getId() {
@@ -94,22 +104,40 @@ public class OrderDetail {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
+
+	public double getPrice() {
+		return price;
+	}
+
+	public double getTax() {
+		return tax;
+	}
     
-	public Double getPrice() {
-		Double unitPrice = this.getProduct().getPrice();
-		int quantity = this.getQuantity();
-		return quantity * unitPrice;
-	}
+    
 
-	public Double getTax() {
-		Double tax = this.getProduct().getCategory().getTaxInPercentage();
-		return this.getPrice() * tax;
-	}
-
-	public Double getTotalPrice() {
-		Double price = this.getPrice();
-		Double discount = Double.valueOf(this.getDiscount());
-		return price + this.getTax() - discount;
-	}
+//    public double getPrice() {
+//		double unitPrice = this.getProduct().getPrice();
+//		int quantity = this.getQuantity();
+//		return quantity * unitPrice;
+//	}
+//
+//	public double getTax() {
+//		double tax = this.getProduct().getCategory().getTaxInPercentage();
+//		return this.getPrice() * tax;
+//	}
+//
+//	public double getTotalPrice() {
+//		double price = this.getPrice();
+//		double discount = Double.valueOf(this.getDiscount());
+//		return price + this.getTax() - discount;
+//	}
     
 }

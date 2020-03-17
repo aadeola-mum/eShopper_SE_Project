@@ -294,8 +294,8 @@ public class Product {
 	@Override
 	public String toString() {
 		return String.format(
-				"Product [id=%s, title=%s, summary=%s, description=%s, discount=%s, price=%s, qtyAvail=%s, merchant=%s, image_1=%s, image_2=%s, image_3=%s, categories=%s]",
-				id, title, summary, description, discount, price, qtyAvail, merchant, Arrays.toString(image_1),
+				"Product [id=%s, title=%s, summary=%s, description=%s, discount=%s, price=%s, qtyAvail=%s, image_1=%s, image_2=%s, image_3=%s, categories=%s]",
+				id, title, summary, description, discount, price, qtyAvail, Arrays.toString(image_1),
 				Arrays.toString(image_2), Arrays.toString(image_3), category);
 	}
 
