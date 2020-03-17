@@ -12,8 +12,6 @@ import cs425.team4.eshopper.models.OrderDetail;
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>{
 
-	public Optional<OrderDetail> findById(Long id);
-	
+	public Optional<OrderDetail> findById(Long id);	
 	public Page<OrderDetail> findAll(Pageable pageable);
-	
 }
