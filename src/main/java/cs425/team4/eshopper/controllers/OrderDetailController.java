@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cs425.team4.eshopper.dao.ProductRepository;
 import cs425.team4.eshopper.models.OrderDetail;
+import cs425.team4.eshopper.models.Product;
 import cs425.team4.eshopper.services.OrderDetailService;
+import cs425.team4.eshopper.services.ProductService;
 
 @RestController
 @RequestMapping(value = "/api/v1/order-details")
@@ -25,6 +28,9 @@ public class OrderDetailController {
 
 	@Autowired
 	private OrderDetailService orderDetailService;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	@GetMapping(value = {"/" , "/list"})
@@ -34,8 +40,20 @@ public class OrderDetailController {
 		return this.orderDetailService.findAllbyPageAndSize(page, size);
 	}
 	
+
 	public Iterable<OrderDetail> getAll(){
 		return this.orderDetailService.getAll();
+	}
+	
+	/*
+	 * test
+	 * */
+	@GetMapping("/test")
+	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	public OrderDetail get() {
+		OrderDetail detail = new OrderDetail();
+		detail.setProduct(this.productService.get(1).get());
+		return detail;
 	}
 	
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})

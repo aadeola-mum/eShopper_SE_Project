@@ -265,8 +265,10 @@ public class Product {
 	@Override
 	public String toString() {
 		return String.format(
+
 				"Product [id=%s, title=%s, summary=%s, description=%s, discount=%s, price=%s, qtyAvail=%s, isAvailable=%s, merchant=%s, images=%s, category=%s]",
 				id, title, summary, description, discount, price, qtyAvail, isAvailable, merchant, images, category);
+
 	}
 
 	@Override
