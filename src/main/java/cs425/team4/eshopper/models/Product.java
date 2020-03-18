@@ -1,5 +1,6 @@
 package cs425.team4.eshopper.models;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import cs425.team4.eshopper.View;
 
 @Entity(name = "products")
-@SecondaryTable(name = "product_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "product_id"))
+//@SecondaryTable(name = "product_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "product_id"))
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"merchant_id","title"})})
 public class Product {
 	@JsonView(View.Summary.class)
@@ -75,17 +76,9 @@ public class Product {
 	@JoinColumn(name="merchant_id")
 	private Merchant merchant;
 	
-	@Column(table = "product_details", nullable = true, columnDefinition = "LONGBLOB")
-	@Lob
-	private byte[] image_1;
-	
-	@Column(table = "product_details", nullable = true, columnDefinition = "LONGBLOB")
-	@Lob
-	private byte[] image_2;
-	
-	@Column(table = "product_details", nullable = true, columnDefinition = "LONGBLOB")
-	@Lob
-	private byte[] image_3;
+	@JsonView(View.Summary.class)
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<ProductImage> images = new ArrayList<ProductImage>();
 	
 	//@JsonBackReference
 	@ManyToOne(/*cascade = CascadeType.ALL*/)
@@ -229,52 +222,29 @@ public class Product {
 	public void setMerchant(Merchant merchant) {
 		this.merchant = merchant;
 	}
+
 	
-	
-
 	/**
-	 * @return the image_1
+	 * @return the images
 	 */
-	public byte[] getImage_1() {
-		return image_1;
+	public List<ProductImage> getImages() {
+		return images;
 	}
 
 	/**
-	 * @param image_1 the image_1 to set
+	 * @param images the images to set
 	 */
-	public void setImage_1(byte[] image_1) {
-		this.image_1 = image_1;
-	}
-
-	/**
-	 * @return the image_2
-	 */
-	public byte[] getImage_2() {
-		return image_2;
-	}
-
-	/**
-	 * @param image_2 the image_2 to set
-	 */
-	public void setImage_2(byte[] image_2) {
-		this.image_2 = image_2;
-	}
-
-	/**
-	 * @return the image_3
-	 */
-	public byte[] getImage_3() {
-		return image_3;
-	}
-
-	/**
-	 * @param image_3 the image_3 to set
-	 */
-	public void setImage_3(byte[] image_3) {
-		this.image_3 = image_3;
+	public void setImages(List<ProductImage> images) {
+		this.images = images;
 	}
 	
-	
+	/**
+	 * @param images the images to set
+	 */
+	public void setImage(ProductImage image) {
+		this.images.add(image);
+	}
+
 	/**
 	 * @return the isAvailable
 	 */
@@ -291,12 +261,14 @@ public class Product {
 	
 	
 
+	
 	@Override
 	public String toString() {
 		return String.format(
-				"Product [id=%s, title=%s, summary=%s, description=%s, discount=%s, price=%s, qtyAvail=%s, image_1=%s, image_2=%s, image_3=%s, categories=%s]",
-				id, title, summary, description, discount, price, qtyAvail, Arrays.toString(image_1),
-				Arrays.toString(image_2), Arrays.toString(image_3), category);
+
+				"Product [id=%s, title=%s, summary=%s, description=%s, discount=%s, price=%s, qtyAvail=%s, isAvailable=%s, merchant=%s, images=%s, category=%s]",
+				id, title, summary, description, discount, price, qtyAvail, isAvailable, merchant, images, category);
+
 	}
 
 	@Override
