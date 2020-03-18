@@ -18,5 +18,6 @@ public interface ProductService {
 	public Page<Product> search(int page, int size, String keyword);
 	public Page<Product> searchByCategory(int page, int size, String category);
 	public Iterable<Product> findAll();
+	public Iterable<Product> findAll(long merchantId);
 	
 }

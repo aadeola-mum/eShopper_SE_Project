@@ -84,4 +84,10 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findAll();
 	}
 
+	@Override
+	public Iterable<Product> findAll(long merchantId) {
+		
+		return this.productRepository.findByMerchantId(merchantId);
+	}
+
 }

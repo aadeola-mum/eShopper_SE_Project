@@ -43,6 +43,10 @@ public class Product {
 	private Long id;
 	
 	@JsonView(View.Summary.class)
+	@NotBlank(message = "Product Number field is required")
+	private String productNumber;
+	
+	@JsonView(View.Summary.class)
 	@NotBlank(message = "Title field is required")
 	private String title;
 	
@@ -109,6 +113,22 @@ public class Product {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	
+
+	/**
+	 * @return the productNumber
+	 */
+	public String getProductNumber() {
+		return productNumber;
+	}
+
+	/**
+	 * @param productNumber the productNumber to set
+	 */
+	public void setProductNumber(String productNumber) {
+		this.productNumber = productNumber;
 	}
 
 	/**
