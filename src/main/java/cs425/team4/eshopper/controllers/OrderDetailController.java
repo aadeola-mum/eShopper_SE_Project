@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import cs425.team4.eshopper.View;
 import cs425.team4.eshopper.dao.ProductRepository;
 import cs425.team4.eshopper.models.OrderDetail;
 import cs425.team4.eshopper.models.Product;

@@ -16,7 +16,7 @@ public class Order {
 
     @NotBlank(message = "This field is required")
     @Column(nullable = false)
-    private String orderID;
+    private String orderNumber;
 
     @NotNull
     @OneToOne
@@ -34,7 +34,7 @@ public class Order {
     @NotNull
     @Column(nullable = false)
     @OneToMany(cascade = CascadeType.ALL)
-    private List<OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @NotNull @Min(0)
     @Column(nullable = false)
@@ -52,7 +52,7 @@ public class Order {
     }
 
     public Order(String orderID, User buyer, LocalDate date, Boolean paid, double discount, double price, double tax, List<OrderDetail> orderDetails ) {
-        this.orderID = orderID;
+        this.orderNumber = orderID;
         this.buyer = buyer;
         this.date = date;
         this.paid = paid;
@@ -62,12 +62,14 @@ public class Order {
         this.orderDetails = orderDetails;
     }
 
-    public Order(String orderID, User buyer, LocalDate date, Boolean paid) {
-        this.orderID = orderID;
+    public Order(String orderID, User buyer, LocalDate date, Boolean paid, double discount, double price, double tax) {
+    	this.orderNumber = orderID;
         this.buyer = buyer;
         this.date = date;
         this.paid = paid;
-        this.orderDetails = new ArrayList<>();
+        this.discount = discount;
+        this.price = price;
+        this.tax = tax;
     }
 
     public Long getId() {
@@ -79,11 +81,11 @@ public class Order {
     }
 
     public String getOrderID() {
-        return orderID;
+        return orderNumber;
     }
 
     public void setOrderID(String orderID) {
-        this.orderID = orderID;
+        this.orderNumber = orderID;
     }
 
     public User getBuyer() {
@@ -132,6 +134,10 @@ public class Order {
 
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+    
+    public void addOrderDetail(OrderDetail orderDetail) {
+    	this.orderDetails.add(orderDetail);
     }
 
 	public double getPrice() {

@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -33,6 +34,7 @@ public class ProductCategory {
 	private String category;
 	
 	//@JsonManagedReference
+	@JsonIgnore
 	@ManyToMany(mappedBy = "category")
 	private Set<Product> products;
 	
