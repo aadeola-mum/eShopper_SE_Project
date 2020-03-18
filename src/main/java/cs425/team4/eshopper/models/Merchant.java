@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
@@ -15,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import cs425.team4.eshopper.View;
@@ -54,7 +57,8 @@ public class Merchant extends User {
 	@Column(name="can_sell")
 	private boolean approved = false;
 	
-	@OneToMany(mappedBy = "merchant", cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(mappedBy = "merchant" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Product> products;
 	
 	

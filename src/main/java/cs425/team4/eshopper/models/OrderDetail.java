@@ -11,10 +11,10 @@ public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @NotNull
-    private Long orderId;
+    private String orderId;
 
     @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
@@ -24,12 +24,12 @@ public class OrderDetail {
     @NotNull
     @Column(nullable = false)
     @Min(0)
-    private Float discount;
+    private double discount;
 
     @NotNull
     @Column(nullable = false)
     @Min(1)
-    private Integer quantity;
+    private int quantity;
 
     @PastOrPresent
     @NotNull
@@ -47,7 +47,17 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(Long orderId, Product product, Float discount, Integer quantity, LocalDate date, double price, double tax) {
+    public OrderDetail(String orderId, Product product, double discount, int quantity, LocalDate date) {
+        this.orderId = orderId;
+        this.product = product;
+        this.quantity = quantity;
+        this.date = date;
+        this.discount = product.getDiscount() * quantity;
+        this.price = product.getPrice() * quantity;
+        this.tax = product.getCategory().getTaxInPercentage() * this.price;
+    }
+    
+    public OrderDetail(String orderId, Product product, double discount, int quantity, LocalDate date, double price, double tax) {
         this.orderId = orderId;
         this.product = product;
         this.discount = discount;
@@ -65,11 +75,11 @@ public class OrderDetail {
         this.id = id;
     }
 
-    public Long getOrderId() {
+    public String getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(Long orderId) {
+	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
 
@@ -81,19 +91,19 @@ public class OrderDetail {
         this.product = product;
     }
 
-    public Float getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Float discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
