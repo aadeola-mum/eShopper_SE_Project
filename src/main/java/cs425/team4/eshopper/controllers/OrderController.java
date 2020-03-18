@@ -92,7 +92,7 @@ public class OrderController {
 		long productId = Long.parseLong(data.get("productId"));
 		long userId = Long.parseLong(data.get("userId"));
 		int quantity = Integer.parseInt(data.get("quantity"));
-		long orderId = Long.parseLong(data.get("orderId"));
+		//long orderId = Long.parseLong(data.get("orderId"));
 		
 		if(productId < 0 || quantity < 0 || userId < 0) 
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
@@ -119,11 +119,14 @@ public class OrderController {
 		
 		Order order;
 		LocalDate date = LocalDate.now();
-		Optional<Order> orderOpt = this.orderService.get(orderId);
-		if (orderOpt.isPresent() && !orderOpt.get().getBuyer().equals(user)) {
+		//Optional<Order> orderOpt = this.orderService.get(orderId);
+		Optional<Order> orderOpt = this.orderService.getCurrentOrderOfUser(userId, user.getUsername());
+		//Optional<Order> orderOpt = this.orderService.getCurrentOrderOfUser(userId);
+		if (orderOpt.isPresent() && orderOpt.get().getBuyer().equals(user)) {
 			order = orderOpt.get();
 			
 		}else {
+			System.out.println("---- Creating new Order ----");
 			order = new Order();
 			order.setOrderID(SequenceGenerator.getInstance().getNext());
 			order.setBuyer(user);
