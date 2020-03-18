@@ -49,11 +49,12 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public Page<Order> findAllbyPageAndSize(int page, int size) {
-		if(page < 0) page = 0;
-		if(size <= 0) size = 10;
-		Pageable pageable = PageRequest.of(page , size);
-		
-		return this.orderRepository.findAll(pageable);
+		return this.orderRepository.findAll(this.getPageable(page, size));
+	}
+
+	@Override
+	public Page<Order> findbyUser(String username, int page, int size) {
+		return this.orderRepository.findAllByBuyer_Username(username , this.getPageable(page, size));
 	}
 
 	@Override
@@ -78,6 +79,12 @@ public class OrderServiceImpl implements OrderService{
 					.findFirst();
 	}
 
-	
+	@Override
+	public Pageable getPageable(int page, int size){
+		if(page < 0) page = 0;
+		if(size <= 0) size = 10;
+		Pageable pageable = PageRequest.of(page , size);
+		return pageable;
+	}
 	
 }
