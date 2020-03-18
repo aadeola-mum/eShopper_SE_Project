@@ -17,4 +17,7 @@ public interface OrderService {
 	public Order save(Order order);
 	public boolean delete(Long id);
 	
+	public Optional<Order> getCurrentOrderOfUser(long userId , String username);
+	public Optional<Order> getCurrentOrderOfUser(long userId);
+	
 }

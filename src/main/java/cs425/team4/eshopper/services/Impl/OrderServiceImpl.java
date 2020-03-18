@@ -1,5 +1,6 @@
 package cs425.team4.eshopper.services.Impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,28 @@ public class OrderServiceImpl implements OrderService{
 		Pageable pageable = PageRequest.of(page , size);
 		
 		return this.orderRepository.findAll(pageable);
+	}
+
+	@Override
+	public Optional<Order> getCurrentOrderOfUser(long userId , String username) {
+		List<Order> orders = this.orderRepository.findAllByBuyer(userId , username);
+
+		return orders.stream()
+					.filter(order -> order.getPaid() == false)
+					.sorted((o1, o2) -> o1.getId().compareTo(o2.getId()))
+					.limit(1)
+					.findFirst();
+	}
+
+	@Override
+	public Optional<Order> getCurrentOrderOfUser(long userId) {
+		List<Order> orders = this.orderRepository.findAllByBuyer(userId);
+
+		return orders.stream()
+					.filter(order -> order.getPaid() == false)
+					.sorted((o1, o2) -> o1.getId().compareTo(o2.getId()))
+					.limit(1)
+					.findFirst();
 	}
 
 	
