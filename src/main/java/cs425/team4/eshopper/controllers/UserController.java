@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -41,7 +42,9 @@ import cs425.team4.eshopper.factory.UserFactory;
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.Order;
 import cs425.team4.eshopper.models.Product;
+import cs425.team4.eshopper.models.ProductImage;
 import cs425.team4.eshopper.models.User;
+import cs425.team4.eshopper.services.FileStorageService;
 import cs425.team4.eshopper.services.UserService;
 import cs425.team4.eshopper.services.Impl.UserDetailsImpl;
 import cs425.team4.eshopper.services.Impl.UserDetailsServiceImpl;
@@ -62,6 +65,9 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private UserDetailsServiceImpl userDetailService;
+	
+	@Autowired
+	private FileStorageService fileStorageService;
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -186,6 +192,32 @@ public class UserController {
 	        	throw new ItemNotFoundException("Invalid MerchantId", merchantId); 
 	        }
 	    }
+	    
+	  
+		@Secured(value = {"ROLE_MERCHANT", "ROLE_ADMIN"})
+		@PostMapping("/{merchantId}/uploadPhoto")
+	    public String uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("merchantId") long merchantId) {
+			 Merchant m = userService.findMerchantById(merchantId).get();
+	       if(m == null) {
+	    	   throw new ItemNotFoundException("Invalid merchant", merchantId); 
+	       }
+			
+			String fileName = fileStorageService.storeFile(file, merchantId, false);
+	        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+	                .path("/merchantimages/")
+	                .path(fileName)
+	                .toUriString();
+	        if(fileDownloadUri == null) {
+	     	   throw new ItemNotFoundException("Upload Failed", merchantId); 
+	        }
+	        
+	        m.setIdentityProof(fileDownloadUri);
+	        userService.saveUser(m);
+	        
+	        
+	        return fileDownloadUri;
+	    }
+
 	    
 
 	    @JsonView(View.Summary.class)
