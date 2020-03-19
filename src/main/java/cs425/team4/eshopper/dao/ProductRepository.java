@@ -17,4 +17,5 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 	
 	@Query("select p from products p where p.category.category = ?1")
 	Page<Product> findByCategory(String category, Pageable pageable);
+
 }

@@ -50,8 +50,24 @@ public class Order {
 
     public Order() {
     }
+    
 
-    public Order(String orderID, User buyer, LocalDate date, Boolean paid, double discount, double price, double tax, List<OrderDetail> orderDetails ) {
+    public Order(Long id, @NotBlank(message = "This field is required") String orderNumber, @NotNull User buyer,
+			@NotNull @PastOrPresent LocalDate date, @NotNull boolean paid, @NotNull List<OrderDetail> orderDetails,
+			@NotNull @Min(0) double discount, @NotNull @Min(0) double price, @NotNull @Min(0) double tax) {
+		this.id = id;
+		this.orderNumber = orderNumber;
+		this.buyer = buyer;
+		this.date = date;
+		this.paid = paid;
+		this.orderDetails = orderDetails;
+		this.discount = discount;
+		this.price = price;
+		this.tax = tax;
+	}
+
+
+	public Order(String orderID, User buyer, LocalDate date, Boolean paid, double discount, double price, double tax, List<OrderDetail> orderDetails ) {
         this.orderNumber = orderID;
         this.buyer = buyer;
         this.date = date;

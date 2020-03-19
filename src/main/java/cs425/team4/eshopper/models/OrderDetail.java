@@ -47,7 +47,20 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(String orderId, Product product, double discount, int quantity, LocalDate date) {
+    public OrderDetail(long id, @NotNull String orderId, @NotNull Product product, @NotNull @Min(0) double discount,
+			@NotNull @Min(1) int quantity, @PastOrPresent @NotNull LocalDate date, @NotNull @Min(0) double price,
+			@NotNull @Min(0) double tax) {
+		this.id = id;
+		this.orderId = orderId;
+		this.product = product;
+		this.discount = discount;
+		this.quantity = quantity;
+		this.date = date;
+		this.price = price;
+		this.tax = tax;
+	}
+
+	public OrderDetail(String orderId, Product product, double discount, int quantity, LocalDate date) {
         this.orderId = orderId;
         this.product = product;
         this.quantity = quantity;

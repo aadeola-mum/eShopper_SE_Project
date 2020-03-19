@@ -18,6 +18,8 @@ import cs425.team4.eshopper.services.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+	
+	@Autowired
 	private ProductRepository productRepository;
 	
 	

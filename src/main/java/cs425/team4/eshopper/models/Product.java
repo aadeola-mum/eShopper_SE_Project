@@ -84,8 +84,51 @@ public class Product {
 //			joinColumns = @JoinColumn(name ="product_id"), 
 //			inverseJoinColumns = @JoinColumn(name ="category_id")
 //	)
+	
+	
 	@NotNull(message = "Category field is required")
 	private ProductCategory category;
+
+	public Product(Long id, @NotBlank(message = "Title field is required") String title,
+			@NotBlank(message = "Summary field is required") String summary,
+			@NotBlank(message = "Description field is required") String description,
+			@NotNull(message = "Discount field is required") double discount,
+			@NotNull(message = "Price field is required") double price,
+			@NotNull(message = "Quantity Available field is required") long qtyAvail, boolean isAvailable,
+			Merchant merchant, List<ProductImage> images,
+			@NotNull(message = "Category field is required") ProductCategory category) {
+		this.id = id;
+		this.title = title;
+		this.summary = summary;
+		this.description = description;
+		this.discount = discount;
+		this.price = price;
+		this.qtyAvail = qtyAvail;
+		this.isAvailable = isAvailable;
+		this.merchant = merchant;
+		this.images = images;
+		this.category = category;
+	}
+
+	public Product(@NotBlank(message = "Title field is required") String title,
+			@NotBlank(message = "Summary field is required") String summary,
+			@NotBlank(message = "Description field is required") String description,
+			@NotNull(message = "Discount field is required") double discount,
+			@NotNull(message = "Price field is required") double price,
+			@NotNull(message = "Quantity Available field is required") long qtyAvail, boolean isAvailable,
+			Merchant merchant, List<ProductImage> images,
+			@NotNull(message = "Category field is required") ProductCategory category) {
+		this.title = title;
+		this.summary = summary;
+		this.description = description;
+		this.discount = discount;
+		this.price = price;
+		this.qtyAvail = qtyAvail;
+		this.isAvailable = isAvailable;
+		this.merchant = merchant;
+		this.images = images;
+		this.category = category;
+	}
 
 	/**
 	 * 
