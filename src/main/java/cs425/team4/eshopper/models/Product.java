@@ -43,6 +43,10 @@ public class Product {
 	private Long id;
 	
 	@JsonView(View.Summary.class)
+	@NotBlank(message = "Product Number field is required")
+	private String productNumber;
+	
+	@JsonView(View.Summary.class)
 	@NotBlank(message = "Title field is required")
 	private String title;
 	
@@ -66,9 +70,11 @@ public class Product {
 	@NotNull(message = "Quantity Available field is required")
 	private long qtyAvail;
 	
+	
 	@JsonView(View.Summary.class)
 	private boolean isAvailable = true;
 	 
+	@JsonView(View.Summary.class)
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="merchant_id")
 	private Merchant merchant;
@@ -149,6 +155,22 @@ public class Product {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	
+
+	/**
+	 * @return the productNumber
+	 */
+	public String getProductNumber() {
+		return productNumber;
+	}
+
+	/**
+	 * @param productNumber the productNumber to set
+	 */
+	public void setProductNumber(String productNumber) {
+		this.productNumber = productNumber;
 	}
 
 	/**

@@ -19,9 +19,11 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 	
 	public Page<Order> findAll(Pageable pageable);
 
+	public Page<Order> findAllByBuyer_Username(String username, Pageable pageable);
+
 	@Query("select o from orders o inner join o.buyer b where b.id = :id and b.username = :username")
 	public List<Order> findAllByBuyer(@Param(value = "id") long userId , @Param(value = "username") String username);
-	
+
 	@Query("select o from orders o inner join o.buyer b where b.id = :id")
 	public List<Order> findAllByBuyer(@Param(value = "id") long userId );
 	

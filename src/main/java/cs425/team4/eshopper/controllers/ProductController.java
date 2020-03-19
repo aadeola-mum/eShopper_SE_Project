@@ -37,6 +37,7 @@ import cs425.team4.eshopper.exceptions.ItemNotFoundException;
 import cs425.team4.eshopper.models.Merchant;
 import cs425.team4.eshopper.models.Product;
 import cs425.team4.eshopper.models.ProductImage;
+import cs425.team4.eshopper.models.User;
 import cs425.team4.eshopper.services.FileStorageService;
 import cs425.team4.eshopper.services.ProductService;
 import cs425.team4.eshopper.services.UserService;
@@ -80,6 +81,18 @@ public class ProductController {
 	}
 	
 	@JsonView(View.Summary.class)
+	@Secured(value = {"ROLE_MERCHANT", "ROLE_ADMIN"})
+	@GetMapping(value = { "/list/{merchantAccount}"})
+	public Iterable<Product> fetchAllProductByMerchant(@PathVariable("merchantAccount") String merchantAccount) throws Exception{		
+		User m = userService.findUserByUsername(merchantAccount).get();
+		if(m != null)
+			return productService.findAll(m.getId());
+		else {
+			throw new Exception("Invalid User Credential");
+		}
+	}
+	
+	@JsonView(View.Summary.class)
 	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
 	@GetMapping(value = { "/list/","/"})
 	public Iterable<Product> fetchAllProduct(){		
@@ -116,6 +129,17 @@ public class ProductController {
 			@RequestParam(name = "size" , defaultValue = "10") int size,
 			@RequestParam("keyword") String category){
 		return productService.searchByCategory(page, size, category);
+		
+	}
+	
+	@JsonView(View.Summary.class)
+	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	@GetMapping("/categoryById/{categoryId}")
+	public Iterable<Product> fetchProductByCategoryId(
+//			@RequestParam(name = "page" , defaultValue = "0") int page, 
+//			@RequestParam(name = "size" , defaultValue = "10") int size,
+			@PathVariable("categoryId") long categoryId){
+		return productService.searchByCategoryId(categoryId);
 		
 	}
 	

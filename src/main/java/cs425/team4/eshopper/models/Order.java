@@ -164,31 +164,30 @@ public class Order {
 		return tax;
 	}
     
-    
-    
-//	public Double getTax() {
-//		return this.getOrderDetails().stream()
-//			.map(OrderDetail::getTax)
-//			.collect(Collectors.summingDouble(Double::doubleValue));
-//	}
-//
-//	public Double getPrice() {
-//		return this.orderDetails.stream()
-//			.map(OrderDetail::getPrice)
-//			.collect(Collectors.summingDouble(Double::doubleValue));
-//	}
-//	
-//	public Double getTotalPrice() {
-//		return this.orderDetails.stream()
-//			.map(OrderDetail::getTotalPrice)
-//			.collect(Collectors.summingDouble(Double::doubleValue));
-//	}
-//	
-//	public Double getTotalDiscount() {
-//		return this.orderDetails.stream()
-//			.map(od -> {
-//				return Double.valueOf(od.getDiscount());
-//			})
-//			.collect(Collectors.summingDouble(Double::doubleValue));
-//	}
+	public double computeTax() {
+		this.tax = this.getOrderDetails().stream()
+				.map(OrderDetail::computeTax)
+				.collect(Collectors.summingDouble(Double::doubleValue)); 
+		return this.tax; 
+	}
+
+	public double computePrice() {
+		this.price = this.orderDetails.stream()
+			.map(OrderDetail::computePrice)
+			.collect(Collectors.summingDouble(Double::doubleValue));
+		return this.price;
+	}
+	
+	public Double computeTotalPrice() {
+		return this.orderDetails.stream()
+			.map(OrderDetail::computeTotalPrice)
+			.collect(Collectors.summingDouble(Double::doubleValue));
+	}
+	
+	public double computeTotalDiscount() {
+		this.discount = this.orderDetails.stream()
+			.map(OrderDetail::getDiscount)
+			.collect(Collectors.summingDouble(Double::doubleValue));
+		return this.discount;
+	}
 }

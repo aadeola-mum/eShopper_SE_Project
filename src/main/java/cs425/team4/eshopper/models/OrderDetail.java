@@ -84,7 +84,7 @@ public class OrderDetail {
         return id;
     }
 
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -143,24 +143,22 @@ public class OrderDetail {
 	public double getTax() {
 		return tax;
 	}
-    
-    
 
-//    public double getPrice() {
-//		double unitPrice = this.getProduct().getPrice();
-//		int quantity = this.getQuantity();
-//		return quantity * unitPrice;
-//	}
-//
-//	public double getTax() {
-//		double tax = this.getProduct().getCategory().getTaxInPercentage();
-//		return this.getPrice() * tax;
-//	}
-//
-//	public double getTotalPrice() {
-//		double price = this.getPrice();
-//		double discount = Double.valueOf(this.getDiscount());
-//		return price + this.getTax() - discount;
-//	}
+    public double computePrice() {
+		double unitPrice = this.getProduct().getPrice();
+		int quantity = this.getQuantity();
+		return quantity * unitPrice;
+	}
+
+	public double computeTax() {
+		double tax = this.getProduct().getCategory().getTaxInPercentage();
+		return this.getPrice() * tax;
+	}
+
+	public double computeTotalPrice() {
+		double price = this.getPrice();
+		double discount = Double.valueOf(this.getDiscount());
+		return price + this.getTax() - discount;
+	}
     
 }
