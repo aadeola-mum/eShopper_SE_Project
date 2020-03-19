@@ -80,7 +80,7 @@ public class Product {
 	private Merchant merchant;
 	
 	@JsonView(View.Summary.class)
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<ProductImage> images = new ArrayList<ProductImage>();
 	
 	//@JsonBackReference
