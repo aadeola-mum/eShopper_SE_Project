@@ -12,14 +12,20 @@ INSERT IGNORE INTO users (username, enabled, first_name, last_name, password, ro
 REPLACE INTO merchants (user_id,biz_name,office_phone_1, can_sell) VALUES 
 (2,"Walco Mart","641 819 1136", TRUE),(7,"Pacific Markets","641 819 1136", FALSE),(6,"Amazon Techs","641 819 1136", FALSE);
 
+INSERT IGNORE INTO product_image (id,image_url) VALUES 
+(1,"http://localhost:8080/productimages/Lg_32_inch_6370826_sd.jpg"), 
+(2,"http://localhost:8080/productimages/hp_envy_91raMsFOgoL._AC_SL1500_.jpg"), 
+(3,"http://localhost:8080/productimages/gold_jewel_1.jpg");
+
 INSERT IGNORE INTO products (product_number,description,discount,price, qty_avail, summary, title, category_id, merchant_id,is_available) VALUES 
 ("LG32-MX","Plasma TV from LG is so beautifully crafted",6, 256.98, 13, "LG Plasma TV ", "LG Plasma TV 32 Inch Screen",1,2,1),
 ("GLJ32KE","Facade Jewelleries is fitted for all occcasions",4, 1996.98, 12, "Facade Gold Necklace 23 Karate Gold", "Facade Gold Necklace 23 Karate Gold",3,7,1),
 ("HP232ENVY","Brand New Laptop",2, 456.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456",2,2,1),
-
 ("GLJ32KE","Facade Jewelleries is fitted for all occcasions",4, 1996.98, 12, "Facade Gold Necklace 23 Karate Gold", "Facade Gold Necklace 23 Karate Gold",3,2,1),
 ("HP232ENVY","Brand New Laptop",2, 456.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456",2,6,1),
 ("LG32-MX","Plasma TV from LG is so beautifully crafted",6, 256.98, 13, "LG Plasma TV ", "LG Plasma TV 32 Inch Screen",1,6,1),
 ("GLJ32KE","Facade Jewelleries is fitted for all occcasions",4, 1996.98, 12, "Facade Gold Necklace 23 Karate Gold", "Facade Gold Necklace 23 Karate Gold",3,6,1),
 ("HP232ENVY","Brand New Laptop",2, 456.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456",2,6,1),
 ("HP232ENVY","Brand New Laptop",2, 496.98, 123, "HP Envy is a Great Laptop", "HP Envy GH456 20GB RAM",2,7,1);
+
+INSERT IGNORE INTO products_images (products_id, images_id) VALUES (1,1), (2,3), (3,2),(4,3), (5,2), (6,1), (7,3),(8,2),(9,2);
