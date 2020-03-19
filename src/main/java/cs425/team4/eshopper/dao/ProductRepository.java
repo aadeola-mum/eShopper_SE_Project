@@ -19,4 +19,5 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 	Page<Product> findByCategory(String category, Pageable pageable);
 	
 	Iterable<Product> findByMerchantId(long merchantId);
+	Iterable<Product> findByCategoryId(long categoryId);
 }

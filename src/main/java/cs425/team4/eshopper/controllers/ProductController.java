@@ -132,6 +132,17 @@ public class ProductController {
 		
 	}
 	
+	@JsonView(View.Summary.class)
+	@Secured({"IS_AUTHENTICATED_ANONYMOUSLY"})
+	@GetMapping("/categoryById/{categoryId}")
+	public Iterable<Product> fetchProductByCategoryId(
+//			@RequestParam(name = "page" , defaultValue = "0") int page, 
+//			@RequestParam(name = "size" , defaultValue = "10") int size,
+			@PathVariable("categoryId") long categoryId){
+		return productService.searchByCategoryId(categoryId);
+		
+	}
+	
 	@Secured(value = {"ROLE_MERCHANT", "ROLE_ADMIN"})
 	@DeleteMapping("/{productId}")
 	public boolean deleteProduct(@PathVariable("productId") long productId){

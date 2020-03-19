@@ -90,4 +90,10 @@ public class ProductServiceImpl implements ProductService {
 		return this.productRepository.findByMerchantId(merchantId);
 	}
 
+	@Override
+	public Iterable<Product> searchByCategoryId(long categoryId) {
+		// TODO Auto-generated method stub
+		return productRepository.findByCategoryId(categoryId);
+	}
+
 }
