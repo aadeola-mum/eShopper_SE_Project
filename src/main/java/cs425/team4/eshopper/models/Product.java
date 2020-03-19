@@ -70,9 +70,11 @@ public class Product {
 	@NotNull(message = "Quantity Available field is required")
 	private long qtyAvail;
 	
+	
 	@JsonView(View.Summary.class)
 	private boolean isAvailable = true;
 	 
+	@JsonView(View.Summary.class)
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="merchant_id")
 	private Merchant merchant;
